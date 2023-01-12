@@ -1,0 +1,6 @@
+config.json
+.env
+node_modules
+output.log
+unused
+dist
