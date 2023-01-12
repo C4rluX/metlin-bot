@@ -1,0 +1,17 @@
+{
+    "developers": [],
+    "prefixes": [],
+    "disable": {
+        "slashCommandsGlobalRegistering": false,
+        "slashCommandsTestingGuildRegistering": false,
+        "discordApiResponseLog": false,
+        "preloadsLogs": false,
+        "commandsLogs": false,
+        "slashCommandsLogs": false
+    },
+    "testingGuilds": [],
+    "embeds": {
+        "colors": [],
+        "footer": ""
+    }
+}
