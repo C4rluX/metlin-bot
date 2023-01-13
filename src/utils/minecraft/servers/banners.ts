@@ -99,7 +99,7 @@ export async function generate(options: BannerGeneratorOptions) {
                 if (linePart.code === "italic") ctx.font = "italic 40px minecraftia, code2000";
                 if (
                     linePart.code === "underlined" ||
-                    linePart.code == "strikethrough" ||
+                    linePart.code === "strikethrough" ||
                     linePart.code === "obfuscated"
                 ) styleContext.push(linePart.code);
                 if (linePart.code === "reset") {
@@ -125,11 +125,11 @@ export async function generate(options: BannerGeneratorOptions) {
 
             ctx.fillText(
                 linePart.text,
-                (linePart.code == "italic") ? x - (isFallback ? 9 : 6) : x - (isFallback ? 2 : 0),
+                (linePart.code === "italic") ? x - (isFallback ? 9 : 6) : x - (isFallback ? 2 : 0),
                 isFallback ? y - 29 : y
             );
             
-            x += width + (linePart.code == "italic" ? 5 : 0);
+            x += width + (linePart.code === "italic" ? 5 : 0);
 
         });
 

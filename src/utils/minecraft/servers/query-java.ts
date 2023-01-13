@@ -76,7 +76,7 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
 
         // Getting packet ID/type, that should be 0x00 always
         const type = await connection.readVarInt(() => connection.readUInt8());
-        if (type !== 0x00) throw new Error("Invalid server response");
+        if (type !== 0x00) reject("Invalid server response");
 
         // Parsing the JSON response, disconnect socket and return final object
         const response = JSON.parse(await connection.readStringVarInt());
