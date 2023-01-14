@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel, Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import Bot from "../structures/Bot";
 import config from "../../config.json";
 import Command from "../structures/Command";
@@ -17,6 +17,9 @@ const allowedToRun = (command: Command, message: Message): boolean => {
 
 export default (client: Bot, message: Message): void => {
 
+    if (config.devMode.activated && !config.devMode.channels.includes(message.channelId)) return;
+    if (!config.devMode.activated && config.devMode.channels.includes(message.channelId)) return;
+    
     if (message.channel.isDMBased()) return;
     if (message.author.bot) return;
 
@@ -31,7 +34,7 @@ export default (client: Bot, message: Message): void => {
     if (!command || !allowedToRun(command, message)) return;
 
     Logger.run(`[Commands] ${message.author.tag} (ID: ${message.author.id}) executed "${prefix}${command.name}" in #${message.channel.name} (ID: ${message.channel.id}) from the guild "${message.guild?.name}" (ID: ${message.guild?.id})`, {
-        color: "cyan", ignore: !config.disable.commandsLogs
+        color: "cyan", ignore: !config.enable.commandsLogs
     });
 
     command.run(client, message, args);

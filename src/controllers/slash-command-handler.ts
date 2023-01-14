@@ -5,6 +5,11 @@ import Logger from "../structures/Logger";
 
 export default async (client: Bot, interaction: ChatInputCommandInteraction): Promise<void> => {
 
+    if (config.devMode.activated && !config.devMode.channels.includes(interaction.channelId)) return;
+    if (!config.devMode.activated && config.devMode.channels.includes(interaction.channelId)) return;
+
+    if (interaction.user.bot) return;
+
     const command = client.interactions.commands.get(interaction.commandName);
     if (!command) return;
     
@@ -26,7 +31,7 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction): Pr
         
         if (interaction.channel && !interaction.channel.isDMBased()) {
             Logger.run(`[Slash Commands] ${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name} ${subcommand.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-                color: "cyan", ignore: !config.disable.slashCommandsLogs
+                color: "cyan", ignore: !config.enable.slashCommandsLogs
             });
         }
     
@@ -36,7 +41,7 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction): Pr
 
     if (interaction.channel && !interaction.channel.isDMBased()) {
         Logger.run(`[Slash Commands] ${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-            color: "cyan", ignore: !config.disable.slashCommandsLogs
+            color: "cyan", ignore: !config.enable.slashCommandsLogs
         });
     }
 

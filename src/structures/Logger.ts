@@ -1,4 +1,4 @@
-import { createWriteStream } from "node:fs";
+import { createWriteStream, writeFile } from "node:fs";
 import * as path from "node:path";
 import { stringifyAny } from "../utils/string-related";
 
@@ -31,7 +31,8 @@ export default class Logger {
         blue: "\x1b[34m",
     }
 
-    private static output = createWriteStream(path.join(process.cwd(), "output.log"), { flags: 'a', autoClose: true })
+    private static logPath = path.join(process.cwd(), "output.log");
+    private static output = createWriteStream(this.logPath, { flags: 'a', autoClose: true })
 
     /**
         @param {string} message 
@@ -62,5 +63,11 @@ export default class Logger {
     }
 
     public static lastMessage: string = "";
+
+    public static clearFile() {
+        writeFile(this.logPath, "", (err) => {
+            if (err) this.run(err?.stack, { color: "red" });
+        });
+    }
 
 }

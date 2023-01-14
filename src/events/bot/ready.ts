@@ -8,25 +8,34 @@ export default new Event({
     name: "ready",
     once: true,
     run: async (client) => {
-        
-        if (!config.disable.slashCommandsGlobalRegistering) {
+
+        if (config.enable.slashCommandsGlobalRegistering) {
             await client.registerGlobalSlashCommands();
         }
 
-        if (!config.disable.slashCommandsTestingGuildRegistering) {
-            await client.registerSlashCommandsInGuilds(config.testingGuilds);
+        if (config.devMode.slashCommandsTestingGuildsRegistering) {
+            await client.registerSlashCommandsInGuilds(config.devMode.guilds);
         }
 
-        await canvasPreloads.load({ logging: !config.disable.preloadsLogs });
-
-        client.loaded = true;
+        await canvasPreloads.load({ logging: config.enable.preloadsLogs });
+        
         Logger.run(`[Bot] Started succesfully as: ${client.user?.tag}`, { color: "green", stringBefore: "\n" });
+        
+        Logger.run(`[Bot] Environment enabled (by config.json): ${
+            Object.keys(config.enable)
+            .filter(key => config.enable[key as keyof typeof config.enable])
+            .map(string => upperCaseByIndexes(string, [0]))
+            .join(", ")
+        }`, { color: "blue", stringBefore: "\n" });
+
         Logger.run(`[Bot] Environment disabled (by config.json): ${
-            Object.keys(config.disable)
-            .filter(key => config.disable[key as keyof typeof config.disable])
+            Object.keys(config.enable)
+            .filter(key => !config.enable[key as keyof typeof config.enable])
             .map(string => upperCaseByIndexes(string, [0]))
             .join(", ")
         }\n`, { color: "blue" });
+
+        client.loaded = true;
 
     }
 })

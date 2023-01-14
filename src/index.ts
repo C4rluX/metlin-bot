@@ -9,6 +9,8 @@ const bot = new Bot({ logging: true });
 bot.start();
 
 import Logger from "./structures/Logger";
-Logger.run("[Bot] Starting...", { color: "green" });
+import { devMode } from "../config.json";
+
+Logger.run(devMode.activated ? `[Bot] Starting in Developer Mode...` : `[Bot] Starting...`, { color: "green" });
 
 export default bot;

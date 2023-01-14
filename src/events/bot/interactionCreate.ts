@@ -1,4 +1,4 @@
-import { BaseInteraction, Message } from "discord.js";
+import { BaseInteraction } from "discord.js";
 import slashCommandHandler from "../../controllers/slash-command-handler";
 import Event from "../../structures/Event";
 

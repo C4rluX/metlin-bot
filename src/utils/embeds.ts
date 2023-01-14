@@ -1,13 +1,16 @@
 import { EmbedBuilder } from "discord.js";
-import { embeds } from "../../config.json";
+import config from "../../config.json";
 import bot from "../index";
+import { randomRange } from "./number-related";
 
 export function randomColor() {
-    return embeds.colors[Math.floor(Math.random() * embeds.colors.length)];
+    return config.defaults.embeds.colors[
+        randomRange(config.defaults.embeds.colors.length)
+    ];
 }
 
 export function getFooter() {
-    return embeds.footer
+    return config.defaults.embeds.footer
     .replaceAll("<botname>", bot.user?.username ?? "")
 }
 

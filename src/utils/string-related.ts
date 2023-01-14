@@ -29,3 +29,7 @@ export function joinArrayWithLastChar(array: Array<string>, char: string, lastCh
         return array.join(char) + lastChar + last;
     }
 }
+
+export function cut(string: string, maxLength: number, end: string = "...") {
+    return (string.length > maxLength) ? string.substring(0, maxLength) + end : string;
+}
