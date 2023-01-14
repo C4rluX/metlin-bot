@@ -1,8 +1,8 @@
-import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js"
+import { AttachmentBuilder, escapeMarkdown, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js"
 import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand"
 import { defaultEmbed } from "../../../utils/embeds";
 import * as banners from "../../../utils/minecraft/servers/banners";
-import queryServerStatus from "../../../utils/minecraft/servers/query-java";
+import queryServerStatus from "../../../utils/minecraft/servers/status-java";
 import { removeColorCodes } from "../../../utils/minecraft/util";
 
 export default new SlashCommandSubCommand({

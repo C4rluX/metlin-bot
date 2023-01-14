@@ -17,6 +17,7 @@
     "author": "JustCarluX",
     "license": "ISC",
     "devDependencies": {
+        "@types/node": "^18.11.18",
         "@types/node-fetch": "^2.6.2",
         "copyfiles": "^2.4.1",
         "nodemon": "^2.0.20",

@@ -24,6 +24,7 @@ function checkSlim(skin: Image) {
 async function fullBodySkin32(image: Image, options: SkinImageOptions) {
 
     options.scale = options.scale ?? 1;
+    options.layers = options.layers ?? true;
 
     // Load image stuff
     const canvas = createCanvas(16 * options.scale, 32 * options.scale);
@@ -68,6 +69,7 @@ async function fullBodySkin32(image: Image, options: SkinImageOptions) {
 async function fullBodySkin64(image: Image, options: SkinImageOptions) {
 
     options.scale = options.scale ?? 1;
+    options.layers = options.layers ?? true;
 
     // Load image stuff
     const canvas = createCanvas(16 * options.scale, 32 * options.scale);
@@ -126,6 +128,7 @@ export async function getFullBody(skin: Buffer | "steve" | "alex", options: Skin
         
     // Parse arguments
     options.scale = options.scale ?? 1;
+    options.layers = options.layers ?? true;
     
     // Load image stuff
     const image = typeof skin === "string" ? preloads.get(`${skin}_skin`) : await loadImage(skin);
@@ -142,6 +145,7 @@ export async function getHead(skin: Buffer | "steve" | "alex", options: SkinImag
 
     // Parse arguments
     options.scale = options.scale ?? 1;
+    options.layers = options.layers ?? true;
 
     // Load image stuff
     const canvas = createCanvas(8 * options.scale, 8 * options.scale);
