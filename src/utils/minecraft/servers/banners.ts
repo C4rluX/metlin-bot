@@ -90,9 +90,15 @@ export async function generate(options: BannerGeneratorOptions) {
         let y = 133 + (lineIndex * 50);
         let styleContext: string[] = [];
 
-        line.forEach((linePart, index) => {
+        line.forEach((linePart) => {
+
+            const reset = () => {
+                ctx.font = "40px minecraftia, code2000";
+                styleContext = [];
+            }
 
             if (linePart.isColor) {
+                if (linePart.text === "") reset();
                 ctx.fillStyle = MotdColorCodesHex[linePart.code as keyof typeof MotdColorCodesHex];
             } else {
                 if (linePart.code === "bold") ctx.font = "bold 40px minecraftia, code2000";
@@ -102,12 +108,12 @@ export async function generate(options: BannerGeneratorOptions) {
                     linePart.code === "strikethrough" ||
                     linePart.code === "obfuscated"
                 ) styleContext.push(linePart.code);
-                if (linePart.code === "reset") {
-                    ctx.font = "40px minecraftia, code2000";
-                    styleContext = [];
-                }
+                if (
+                    linePart.code === "reset" ||
+                    linePart.text === " "
+                ) reset();
             }
-
+            
             if (!linePart.text) return;
 
             if (styleContext.includes("obfuscated")) {

@@ -6,7 +6,7 @@
     "scripts": {
         "clean": "npx rimraf dist",
         "build": "npx tsc && npx copyfiles src/resources/*.* dist && npx copyfiles src/resources/*/*.* dist",
-        "start": "npx ts-node src/index.ts",
+        "start:dev": "npx ts-node src/index.ts",
         "start:build": "node dist/src/index.js"
     },
     "keywords": [
