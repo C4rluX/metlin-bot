@@ -16,7 +16,8 @@ interface LoggerOptions {
     color?: keyof ConsoleColors,
     stringBefore?: string,
     hideHour?: boolean,
-    ignore?: boolean
+    ignore?: boolean,
+    category?: string
 }
 
 export default class Logger {
@@ -47,7 +48,7 @@ export default class Logger {
             (options.stringBefore?.startsWith("\n") && this.lastMessage.endsWith("\n"))
         ) options.stringBefore = options.stringBefore?.trimStart();
 
-        const stringified = stringifyAny(message);
+        const stringified = (options.category ? `[${options.category}] ` : "") + stringifyAny(message);
 
         const color = options.color ? this.colors[options.color] : this.colors.default;
         const beforeString = options.stringBefore ? color + options.stringBefore + this.colors.default : '';

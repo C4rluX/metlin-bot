@@ -19,21 +19,23 @@ export default new Event({
 
         await canvasPreloads.load({ logging: config.enable.preloadsLogs });
         
-        Logger.run(`[Bot] Started succesfully as: ${client.user?.tag}`, { color: "green", stringBefore: "\n" });
+        Logger.run(`Started succesfully as: ${client.user?.tag}`, {
+            color: "green", stringBefore: "\n", category: "Bot"
+        });
         
-        Logger.run(`[Bot] Environment enabled (by config.json): ${
+        Logger.run(`Environment enabled (by config.json): ${
             Object.keys(config.enable)
             .filter(key => config.enable[key as keyof typeof config.enable])
             .map(string => upperCaseByIndexes(string, [0]))
             .join(", ")
-        }`, { color: "blue", stringBefore: "\n" });
+        }`, { color: "blue", stringBefore: "\n", category: "Bot" });
 
-        Logger.run(`[Bot] Environment disabled (by config.json): ${
+        Logger.run(`Environment disabled (by config.json): ${
             Object.keys(config.enable)
             .filter(key => !config.enable[key as keyof typeof config.enable])
             .map(string => upperCaseByIndexes(string, [0]))
             .join(", ")
-        }\n`, { color: "blue" });
+        }\n`, { color: "blue", category: "Bot" });
 
         client.loaded = true;
 

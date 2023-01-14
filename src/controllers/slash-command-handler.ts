@@ -30,8 +30,8 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction): Pr
         if (!subcommand) return;
         
         if (interaction.channel && !interaction.channel.isDMBased()) {
-            Logger.run(`[Slash Commands] ${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name} ${subcommand.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-                color: "cyan", ignore: !config.enable.slashCommandsLogs
+            Logger.run(`${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name} ${subcommand.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
+                color: "cyan", ignore: !config.enable.slashCommandsLogs, category: "Slash Commands"
             });
         }
     
@@ -40,8 +40,8 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction): Pr
     }
 
     if (interaction.channel && !interaction.channel.isDMBased()) {
-        Logger.run(`[Slash Commands] ${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-            color: "cyan", ignore: !config.enable.slashCommandsLogs
+        Logger.run(`${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
+            color: "cyan", ignore: !config.enable.slashCommandsLogs, category: "Slash Commands"
         });
     }
 

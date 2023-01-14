@@ -11,6 +11,8 @@ bot.start();
 import Logger from "./structures/Logger";
 import { devMode } from "../config.json";
 
-Logger.run(devMode.activated ? `[Bot] Starting in Developer Mode...` : `[Bot] Starting...`, { color: "green" });
+Logger.run(devMode.activated ? `Starting in Developer Mode...` : `Starting...`, {
+    color: "green", category: "Bot"
+});
 
 export default bot;

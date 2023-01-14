@@ -34,7 +34,9 @@ export default new Command({
         .setColor(39129)
 
         if (readableResult.length > 1024) {
-            Logger.run(`[Eval] Result\n${readableResult}\n`, { color: "blue", stringBefore: "\n" });
+            Logger.run(`Result\n${readableResult}\n`, {
+                color: "blue", stringBefore: "\n", category: "Eval"
+            });
         }
 
         return await message.reply({ embeds: [embed] });

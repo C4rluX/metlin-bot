@@ -44,15 +44,29 @@ class Bot extends Client {
         const botEvents = await this.loadEvents("bot");
         const restEvents = await this.loadEvents("rest");
 
-        Logger.run(`[Bot] Loaded commands: ${this.commands.map(e => e.name).join(", ") || "None"}`, { color: "blue", ignore: !this.botOptions.logging, stringBefore: "\n" })
-        Logger.run(`[Bot] Loaded slash commands: ${this.interactions.commands.map(e => e.data.name).join(", ") || "None"}`, { color: "blue", ignore: !this.botOptions.logging })
-        Logger.run(`[Bot] Loaded events: ${botEvents.map(e => e.name).join(", ") || "None"}`, { color: "blue", ignore: !this.botOptions.logging })
-        Logger.run(`[Bot] Loaded Discord API REST events: ${restEvents.map(e => e.name).join(", ") || "None"}\n`, { color: "blue", ignore: !this.botOptions.logging })
+        Logger.run(`Loaded commands: ${this.commands.map(e => e.name).join(", ") || "None"}`, {
+            color: "blue", ignore: !this.botOptions.logging, stringBefore: "\n", category: "Bot"
+        });
+
+        Logger.run(`Loaded slash commands: ${this.interactions.commands.map(e => e.data.name).join(", ") || "None"}`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+        });
+
+        Logger.run(`Loaded events: ${botEvents.map(e => e.name).join(", ") || "None"}`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+        });
+
+        Logger.run(`Loaded Discord API REST events: ${restEvents.map(e => e.name).join(", ") || "None"}\n`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+        })
 
         this.login(process.env.BOT_TOKEN)
         .catch(err => {
-            Logger.run(`[Fatal] Error when starting client:\n${err.stack ? err.stack : err}`, { color: "red" });
-        })
+            Logger.run(`Error when starting client:\n${err.stack ? err.stack : err}`, {
+                color: "red", category: "Fatal"
+            });
+            process.exit();
+        });
 
     }
 
@@ -115,18 +129,28 @@ class Bot extends Client {
         if (!guilds.length) return;
 
         const body = this.interactions.commands.map(e => e.data.toJSON());
-        if (!body.length) return Logger.run(`[Guild Slash Commands] No commands to register\n`, { color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging });
+        if (!body.length) {
+            return Logger.run(`No commands to register\n`, {
+                color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+            });
+        }
 
-        Logger.run(`[Guild Slash Commands] Registering...`, { color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging });
+        Logger.run(`Registering...`, {
+            color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+        });
 
         for (let index in guilds) {
             const guildId = guilds[index];
             const guild = this.guilds.cache.get(guildId);
             if (!guild) continue;
             const data: any = await this.rest.put(Routes.applicationGuildCommands(this.user.id, guild.id), { body });
-            Logger.run(`[Guild Slash Commands] Succesfully registered ${data.length} of them in "${guild.name}" (ID: ${guild.id})`, { color: "blue", ignore: !this.botOptions.logging });
+            Logger.run(`Succesfully registered ${data.length} of them in "${guild.name}" (ID: ${guild.id})`, {
+                color: "blue", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+            });
         }
-        Logger.run(`[Guild Slash Commands] Done\n`, { color: "blue", ignore: !this.botOptions.logging });
+        Logger.run(`Done\n`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+        });
 
     }
 
@@ -135,15 +159,23 @@ class Bot extends Client {
         if (!this.isReady()) throw new Error("Bot isn't ready yet.");
         if (!guilds.length) return;
 
-        Logger.run(`[Guild Slash Commands] Removing...`, { color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging });
+        Logger.run(`Removing...`, {
+            color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+        });
+
         for (let index in guilds) {
             const guildId = guilds[index];
             const guild = this.guilds.cache.get(guildId);
             if (!guild) continue;
             await this.rest.put(Routes.applicationGuildCommands(this.user.id, guild.id), { body: [] });
-            Logger.run(`[Guild Slash Commands] Succesfully wiped all commands from "${guild.name}" (ID: ${guild.id})`, { color: "blue", ignore: !this.botOptions.logging });
+            Logger.run(`Succesfully removed all commands from "${guild.name}" (ID: ${guild.id})`, {
+                color: "blue", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+            });
         }
-        Logger.run(`[Guild Slash Commands] Done\n`, { color: "blue", ignore: !this.botOptions.logging });
+
+        Logger.run(`Done\n`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Guild Slash Commands"
+        });
 
     }
 
@@ -152,11 +184,20 @@ class Bot extends Client {
         if (!this.isReady()) throw new Error("Bot isn't ready yet.");
         const body = this.interactions.commands.map(e => e.data.toJSON());
 
-        if (!body.length) return Logger.run(`[Global Slash Commands] No commands to register`, { color: "blue", ignore: !this.botOptions.logging });
+        if (!body.length) {
+            return Logger.run(`No commands to register`, {
+                color: "blue", ignore: !this.botOptions.logging, category: "Global Slash Commands"
+            });
+        }
 
-        Logger.run(`[Global Slash Commands] Registering...`, { color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging });
+        Logger.run(`Registering...`, {
+            color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging, category: "Global Slash Commands"
+        });
+
         const data: any = await this.rest.put(Routes.applicationCommands(this.user.id), { body });
-        Logger.run(`[Global Slash Commands] Succesfully registered ${data.length} of them. Done\n`, { color: "blue", ignore: !this.botOptions.logging });
+        Logger.run(`Succesfully registered ${data.length} of them. Done\n`, {
+            color: "blue", ignore: !this.botOptions.logging, category: "Global Slash Commands"
+        });
 
     }
 
@@ -164,9 +205,14 @@ class Bot extends Client {
 
         if (!this.isReady()) throw new Error("Bot isn't ready yet.");
 
-        Logger.run(`[Global Slash Commands] Removing...`, { color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging });
+        Logger.run(`Removing...`, {
+            color: "blue", stringBefore: "\n", ignore: !this.botOptions.logging, category: "Global Slash Commands"
+        });
+
         await this.rest.put(Routes.applicationCommands(this.user.id), { body: [] });
-        Logger.run(`[Global Slash Commands] Succesfully wiped all global commands. Done\n`, { color: "blue" });
+        Logger.run(`Succesfully removed all global commands. Done\n`, {
+            color: "blue", category: "Global Slash Commands"
+        });
 
     }
 

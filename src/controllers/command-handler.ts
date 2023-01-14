@@ -33,8 +33,8 @@ export default (client: Bot, message: Message): void => {
 
     if (!command || !allowedToRun(command, message)) return;
 
-    Logger.run(`[Commands] ${message.author.tag} (ID: ${message.author.id}) executed "${prefix}${command.name}" in #${message.channel.name} (ID: ${message.channel.id}) from the guild "${message.guild?.name}" (ID: ${message.guild?.id})`, {
-        color: "cyan", ignore: !config.enable.commandsLogs
+    Logger.run(`${message.author.tag} (ID: ${message.author.id}) executed "${prefix}${command.name}" in #${message.channel.name} (ID: ${message.channel.id}) from the guild "${message.guild?.name}" (ID: ${message.guild?.id})`, {
+        color: "cyan", ignore: !config.enable.commandsLogs, category: "Commands"
     });
 
     command.run(client, message, args);

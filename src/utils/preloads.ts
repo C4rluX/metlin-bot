@@ -50,8 +50,8 @@ export async function load(options: PreloadsOptions) {
 
     }
 
-    Logger.run(`[Preloads] Loaded: ${loaded.join(", ") || "None"}\n`, {
-        color: "blue", ignore: !options.logging, stringBefore: "\n"
+    Logger.run(`Loaded: ${loaded.join(", ") || "None"}\n`, {
+        color: "blue", ignore: !options.logging, stringBefore: "\n", category: "Preloads"
     });
 
 }
