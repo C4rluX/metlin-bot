@@ -6,6 +6,10 @@ const connection = new Sequelize({
     host: process.env.DB_HOST,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
+    dialectOptions: {
+        connectTimeout: 5000
+    },
+    logging: () => {}
 });
 
 interface AuthenticateConnectionOptions {
