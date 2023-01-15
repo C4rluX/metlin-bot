@@ -1,10 +1,5 @@
 export default {
 
-    // Important!
-    // - Remember to remove the comments when you start setting this up
-    // - You can use a tool like strip-json-comments-cli (npm) to create a copy of this file without comments more easily
-    // - If you are using Visual Studio Code, you can edit this file without getting errors using language mode "jsonc" (JSON with comments)
-
     // Type: Array<string>
     // Description: Developers/owners Discord IDs. The users listed here have maximum permissions on the bot 
     "developers": [],
