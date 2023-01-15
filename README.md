@@ -6,6 +6,7 @@ This repository includes a wide variety of interesting functions and features ex
 ## 💻 Running
 
 - Install Node.js if you don't have it. The bot was developed and tested in version **18+**.
+- Clone this repository.
 - Install all the required dependencies with `npm install`.
 - Copy the contents of `.example.env` in a new file called `.env` and fill in everything that is needed. Then do the same for `config.example.ts`, here the new file has to be called `config.ts`. The `.example` files contain comments to help you understand what the settings do.
 - Build the proyect using `npm run build`. Then run `npm run start:build` to start the bot.
