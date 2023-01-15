@@ -5,7 +5,8 @@ const connection = new Sequelize({
     dialect: "mariadb",
     host: process.env.DB_HOST,
     username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASSWORD ?? undefined,
+    database: process.env.DB_NAME,
     dialectOptions: {
         connectTimeout: 5000
     },
@@ -18,7 +19,7 @@ interface AuthenticateConnectionOptions {
 
 export async function authenticateConnection(options: AuthenticateConnectionOptions) {
     await connection.authenticate();
-    Logger.run(`Authenticated and connected\n`, {
+    Logger.run(`Connected in: ${connection.getDatabaseName()} (${connection.getDialect()})\n`, {
         color: "blue", ignore: !options.logging, stringBefore: "\n", category: "Database"
     });
 }
