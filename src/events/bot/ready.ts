@@ -3,6 +3,7 @@ import config from "../../../config";
 import Logger from "../../structures/Logger";
 import { upperCaseByIndexes } from "../../utils/string-related";
 import * as canvasPreloads from "../../utils/preloads";
+import { startPresenceUpdater } from "../../utils/presense";
 
 export default new Event({
     name: "ready",
@@ -37,6 +38,7 @@ export default new Event({
             .join(", ")
         }\n`, { color: "blue", category: "Bot" });
 
+        startPresenceUpdater(client);
         client.loaded = true;
 
     }

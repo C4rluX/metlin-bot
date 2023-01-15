@@ -11,7 +11,7 @@ export default new Event({
             `${response.method} ${response.path} - 200 OK - Retries: ${response.retries}`,
             `Body: ${JSON.stringify(response.data.body || {})}`
         ].join("\n"), {
-            color: "blue", ignore: !config.enable.discordApiRequestsLogs, category: "Discord API"
+            color: "cyan", ignore: !config.enable.discordApiRequestsLogs, category: "Discord API"
         });
         
     }

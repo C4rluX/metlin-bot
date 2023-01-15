@@ -10,6 +10,7 @@ const bot = new Bot({ logging: true });
 import Logger from "./structures/Logger";
 
 import config from "../config";
+import { parseVariables } from "./utils/json-related";
 
 (async () => {
 

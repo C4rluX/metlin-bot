@@ -17,10 +17,6 @@ export default {
         "slashCommandsGlobalRegistering": false,
 
         // Type: boolean
-        // Description: Log Discord API requests made by the bot
-        "discordApiRequestsLogs": false,
-        
-        // Type: boolean
         // Description: Log preloaded files like images or fonts (located in src/resources)
         "preloadsLogs": false,
 
@@ -30,7 +26,23 @@ export default {
 
         // Type: boolean
         // Description: Log when a user executes a slash command
-        "slashCommandsLogs": false
+        "slashCommandsLogs": false,
+
+        // Type: boolean
+        // Description: Log Discord API requests made by the bot
+        "discordApiRequestsLogs": false,
+
+        // Type: boolean
+        // Description: Log Database connection information
+        "databaseLogs": false,
+
+        // Type: boolean
+        // Description: Activate bot presences
+        "presence": false,
+
+        // Type: boolean
+        // Description: Log when the presence changes to another index from the property: presence > list
+        "presenceLogs": false
 
     },
 
@@ -52,7 +64,8 @@ export default {
 
             // Type: string
             // Description: Default embeds footer.
-            // There's a flag that can be used here that is "<botname>". That will be replaced with the username of the bot
+            // Available variables:
+            // - "<botname>": Bot username
             "footer": ""
 
         }
@@ -78,6 +91,23 @@ export default {
         // Type: Array<string>
         // Description: List of guild IDs. When the above option is true, slash commands get registered on the guilds listed here
         "guilds": []
+
+    },
+
+    // Type: Object
+    // Description: Bot presence changer settings
+    "presence": {
+        
+        // Type: number
+        // Description: Presence change interval in miliseconds
+        "updateInterval": 0,
+
+        // Type: Array<PresenceData>
+        // Description: List of possible presences. On every presence change/interval one of these will be selected randomly. Every item has to be in the format of a PresenceData (from discord.js): https://discord.js.org/#/docs/discord.js/main/typedef/PresenceData
+        // Available variables:
+        // - "<serversCount>": Cached (most likely all) servers count
+        // - "<usersCount>": Cached users count
+        "list": []
 
     }
 

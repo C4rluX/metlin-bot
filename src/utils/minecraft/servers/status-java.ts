@@ -43,8 +43,6 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
             timeout: options.timeout
         });
         connection.init();
-
-        console.log("set timeout to: " + options.timeout);
         
         const timeout = setTimeout(() => {
             connection.end();

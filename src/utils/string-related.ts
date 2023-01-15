@@ -33,3 +33,25 @@ export function joinArrayWithLastChar(array: Array<string>, char: string, lastCh
 export function cut(string: string, maxLength: number, end: string = "...") {
     return (string.length > maxLength) ? string.substring(0, maxLength) + end : string;
 }
+
+export function parseVariables(text: string, variables: any) {
+
+    if (!variables || !Object.keys(variables).length) return text;
+
+    let matches = Array.from(text.matchAll(/<\w+>/g), e => e[0]);
+    if (!matches.length) return text;
+    
+    matches = matches.map(e => { return e.replace(/<|>/g, ""); })
+
+    return text.split(/<\w+>/g).map((str, index) => {
+        if (index == matches.length) return str;
+        return str + variables[matches[index]];
+    }).join("");
+
+}
+
+export function escapeForJSON(text: string) {
+    if (!text) return '';
+    const stringified = JSON.stringify(text.toString());
+    return stringified.slice(1, stringified.length - 1);
+}
