@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import config from "../../config.json";
+import config from "../../config";
 import bot from "../index";
 import { randomRange } from "./number-related";
 

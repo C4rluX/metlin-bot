@@ -44,7 +44,17 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
         });
         connection.init();
 
-        connection.on("error", (error) => { reject(error); });
+        console.log("set timeout to: " + options.timeout);
+        
+        const timeout = setTimeout(() => {
+            connection.end();
+            reject("Timeout");
+        }, options.timeout);
+
+        connection.on("error", (error) => {
+            clearTimeout(timeout);
+            reject(error);
+        });
 
         // Handshake packet
         const handshakePacket = Buffer.concat([
@@ -56,7 +66,10 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
         ]);
         await new Promise<void>((resolve, reject) => {
             connection.socket?.write(prefixLength(handshakePacket), (error) => {
-                if (error) reject(error);
+                if (error) {
+                    clearTimeout(timeout);
+                    reject(error);
+                }
                 resolve();
             })
         });
@@ -65,7 +78,10 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
         const requestPacket = Buffer.concat([ varIntBuffer(0x00) ]);
         await new Promise<void>((resolve, reject) => {
             connection.socket?.write(prefixLength(requestPacket), (error) => {
-                if (error) reject(error);
+                if (error) {
+                    clearTimeout(timeout);
+                    reject(error);
+                }
                 resolve();
             })
         });
@@ -76,11 +92,15 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
 
         // Getting packet ID/type, that should be 0x00 always
         const type = await connection.readVarInt(() => connection.readUInt8());
-        if (type !== 0x00) reject("Invalid server response");
+        if (type !== 0x00) {
+            clearTimeout(timeout);
+            reject("Invalid server response");
+        }
 
         // Parsing the JSON response, disconnect socket and return final object
         const response = JSON.parse(await connection.readStringVarInt());
         connection.end();
+        clearTimeout(timeout);
         
         const result = { ...response, favicon: null };
         delete result.description;

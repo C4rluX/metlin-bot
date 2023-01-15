@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import Bot from "../structures/Bot";
-import config from "../../config.json";
+import config from "../../config";
 import Logger from "../structures/Logger";
 
 export default async (client: Bot, interaction: ChatInputCommandInteraction): Promise<void> => {

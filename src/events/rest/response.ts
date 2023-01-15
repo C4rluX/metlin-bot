@@ -1,6 +1,6 @@
 import Event from "../../structures/Event";
 import Logger from "../../structures/Logger";
-import config from "../../../config.json";
+import config from "../../../config";
 
 export default new Event({
     name: "response",

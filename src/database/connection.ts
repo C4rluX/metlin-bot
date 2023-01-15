@@ -19,7 +19,7 @@ interface AuthenticateConnectionOptions {
 
 export async function authenticateConnection(options: AuthenticateConnectionOptions) {
     await connection.authenticate();
-    Logger.run(`Connected in: ${connection.getDatabaseName()} (${connection.getDialect()})\n`, {
+    Logger.run(`Connected in: ${connection.getDatabaseName()} (${process.env.DB_HOST} - ${connection.getDialect()})\n`, {
         color: "blue", ignore: !options.logging, stringBefore: "\n", category: "Database"
     });
 }

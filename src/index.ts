@@ -9,7 +9,7 @@ const bot = new Bot({ logging: true });
 
 import Logger from "./structures/Logger";
 
-import config from "../config.json";
+import config from "../config";
 
 (async () => {
 

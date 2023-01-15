@@ -1,4 +1,5 @@
-{
+export default {
+
     // Important!
     // - Remember to remove the comments when you start setting this up
     // - You can use a tool like strip-json-comments-cli (npm) to create a copy of this file without comments more easily
@@ -84,6 +85,5 @@
         "guilds": []
 
     }
-
 
 }

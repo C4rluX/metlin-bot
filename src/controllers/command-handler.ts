@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import Bot from "../structures/Bot";
-import config from "../../config.json";
+import config from "../../config";
 import Command from "../structures/Command";
 import Logger from "../structures/Logger";
 

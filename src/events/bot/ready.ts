@@ -1,5 +1,5 @@
 import Event from "../../structures/Event";
-import config from "../../../config.json";
+import config from "../../../config";
 import Logger from "../../structures/Logger";
 import { upperCaseByIndexes } from "../../utils/string-related";
 import * as canvasPreloads from "../../utils/preloads";
@@ -23,14 +23,14 @@ export default new Event({
             color: "green", stringBefore: "\n", category: "Bot"
         });
         
-        Logger.run(`Environment enabled (by config.json): ${
+        Logger.run(`Environment enabled (by config): ${
             Object.keys(config.enable)
             .filter(key => config.enable[key as keyof typeof config.enable])
             .map(string => upperCaseByIndexes(string, [0]))
             .join(", ")
         }`, { color: "blue", stringBefore: "\n", category: "Bot" });
 
-        Logger.run(`Environment disabled (by config.json): ${
+        Logger.run(`Environment disabled (by config): ${
             Object.keys(config.enable)
             .filter(key => !config.enable[key as keyof typeof config.enable])
             .map(string => upperCaseByIndexes(string, [0]))
