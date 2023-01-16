@@ -1,8 +1,8 @@
 import { Client } from "discord.js";
 import config from "../../config";
 import Logger from "../structures/Logger";
-import { parseVariables } from "./json-related";
-import { randomRange } from "./number-related";
+import { parseVariables } from "../utils/json-related";
+import { randomRange } from "../utils/number-related";
 import bot from "../index";
 
 let lastPresenceIndex = -1;

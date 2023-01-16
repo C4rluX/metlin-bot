@@ -30,7 +30,6 @@
         "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "mariadb": "^3.0.2",
-        "mysql2": "^3.0.1",
         "node-fetch": "^2.6.7",
         "sequelize": "^6.28.0"
     }

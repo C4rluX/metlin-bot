@@ -3,7 +3,7 @@ import config from "../../../config";
 import Logger from "../../structures/Logger";
 import { upperCaseByIndexes } from "../../utils/string-related";
 import * as canvasPreloads from "../../utils/preloads";
-import { startPresenceUpdater } from "../../utils/presense";
+import { startPresenceUpdater } from "../../controllers/presense";
 
 export default new Event({
     name: "ready",
