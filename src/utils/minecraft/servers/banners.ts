@@ -98,7 +98,7 @@ export async function generate(options: BannerGeneratorOptions) {
             }
 
             if (linePart.isColor) {
-                if (linePart.text === "") reset();
+                if (linePart.text === " ") reset();
                 ctx.fillStyle = MotdColorCodesHex[linePart.code as keyof typeof MotdColorCodesHex];
             } else {
                 if (linePart.code === "bold") ctx.font = "bold 40px minecraftia, code2000";
