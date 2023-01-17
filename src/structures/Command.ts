@@ -1,11 +1,12 @@
-import { Client, Message } from "discord.js";
+import { Message } from "discord.js";
+import Bot from "./Bot";
 
 interface CommandData {
     name: string,
     alias: Array<string>,
     developersOnly?: boolean,
     public?: boolean,
-    run: (client: Client, message: Message, args: Array<string>) => void
+    run: (client: Bot, message: Message, args: Array<string>) => void
 }
 
 export default class Command {

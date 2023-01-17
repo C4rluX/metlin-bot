@@ -11,6 +11,18 @@ interface BotOptions {
     logging: boolean
 }
 
+interface LoadBotOptions {
+    logging?: boolean
+}
+
+function uncacheModule(path: string) {
+    try {
+        delete require.cache[require.resolve(path)];
+    } catch (err: any) {
+        Logger.run(err?.stack, { color: "red" });
+    }
+}
+
 class Bot extends Client {
 
     public commands = new Collection<String, Command>();
@@ -35,7 +47,9 @@ class Bot extends Client {
         this.botOptions = options;
     }
 
-    async start() {
+    async load(options: LoadBotOptions) {
+
+        this.removeAllListeners();
 
         this.commands = await this.loadCommands("commands");
         this.interactions.commands = await this.loadCommands("interactions/commands");
@@ -45,21 +59,24 @@ class Bot extends Client {
         const restEvents = await this.loadEvents("rest");
 
         Logger.run(`Loaded commands: ${this.commands.map(e => e.name).join(", ") || "None"}`, {
-            color: "blue", ignore: !this.botOptions.logging, stringBefore: "\n", category: "Bot"
+            color: "blue", ignore: !options.logging, stringBefore: "\n", category: "Bot"
         });
 
         Logger.run(`Loaded slash commands: ${this.interactions.commands.map(e => e.data.name).join(", ") || "None"}`, {
-            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+            color: "blue", ignore: !options.logging, category: "Bot"
         });
 
         Logger.run(`Loaded events: ${botEvents.map(e => e.name).join(", ") || "None"}`, {
-            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+            color: "blue", ignore: !options.logging, category: "Bot"
         });
 
         Logger.run(`Loaded Discord API REST events: ${restEvents.map(e => e.name).join(", ") || "None"}\n`, {
-            color: "blue", ignore: !this.botOptions.logging, category: "Bot"
+            color: "blue", ignore: !options.logging, category: "Bot"
         })
 
+    }
+
+    async start() {
         this.login(process.env.BOT_TOKEN)
         .catch(err => {
             Logger.run(`Error when starting client:\n${err.stack ? err.stack : err}`, {
@@ -67,7 +84,6 @@ class Bot extends Client {
             });
             process.exit();
         });
-
     }
 
     async loadCommands(where: "commands" | "interactions/commands" | "interactions/subcommands"): Promise<Collection<any, any>> {
@@ -79,7 +95,9 @@ class Bot extends Client {
             if (!folder.isDirectory()) continue;
             const files = (await readdir(path.join(require.main?.path || "", where, folder.name))).filter(e => e.endsWith(".ts") || e.endsWith(".js"));
             for (const index in files) {
-                const command = (await import(path.join(require.main?.path || "", where, folder.name, files[index]))).default;
+                const filePath = path.join(require.main?.path || "", where, folder.name, files[index]);
+                uncacheModule(filePath);
+                const command = (await import(filePath)).default;
                 collection.set(where === "commands" ? command.name : command.data.name, command);
             }
         }
@@ -94,7 +112,9 @@ class Bot extends Client {
 
         for (const index in files) {
 
-            const event: Event = (await import(path.join(require.main?.path || "", `events`, where, files[index]))).default;
+            const filePath = path.join(require.main?.path || "", `events`, where, files[index]);
+            uncacheModule(filePath);
+            const event: Event = (await import(filePath)).default;
             events.push(event);
 
             if (where === "bot") {

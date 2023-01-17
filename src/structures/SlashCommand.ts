@@ -1,8 +1,9 @@
-import { ChatInputCommandInteraction, Client, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import Bot from "./Bot";
 
 interface SlashCommandData {
     data: SlashCommandBuilder,
-    run: (client: Client, interaction: ChatInputCommandInteraction) => void
+    run: (client: Bot, interaction: ChatInputCommandInteraction) => void
 }
 
 export default class SlashCommand {

@@ -25,8 +25,12 @@ export default {
         "commandsLogs": false,
 
         // Type: boolean
-        // Description: Log when a user executes a slash command
+        // Description: Log when the bot is reloaded
         "slashCommandsLogs": false,
+
+        // Type: boolean
+        // Description: Log when a user executes a slash command
+        "reloadLogs": false,
 
         // Type: boolean
         // Description: Log Discord API requests made by the bot

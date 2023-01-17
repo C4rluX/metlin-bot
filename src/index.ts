@@ -10,7 +10,6 @@ const bot = new Bot({ logging: true });
 import Logger from "./structures/Logger";
 
 import config from "../config";
-import { parseVariables } from "./utils/json-related";
 
 (async () => {
 
@@ -21,6 +20,7 @@ import { parseVariables } from "./utils/json-related";
     });
 
     await database.authenticateConnection({ logging: config.enable.databaseLogs });
+    await bot.load({ logging: true });
     await bot.start();
 
 })();

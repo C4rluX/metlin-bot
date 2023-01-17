@@ -2,18 +2,8 @@ import { createWriteStream, writeFile } from "node:fs";
 import * as path from "node:path";
 import { stringifyAny } from "../utils/string-related";
 
-interface ConsoleColors {
-    default: string,
-    green: string,
-    red: string,
-    yellow: string,
-    cyan: string,
-    magenta: string,
-    blue: string
-}
-
 interface LoggerOptions {
-    color?: keyof ConsoleColors,
+    color?: keyof typeof Logger.colors,
     stringBefore?: string,
     hideHour?: boolean,
     ignore?: boolean,
@@ -22,7 +12,7 @@ interface LoggerOptions {
 
 export default class Logger {
 
-    public static colors: ConsoleColors = {
+    public static colors = {
         default: "\x1b[0m",
         green: "\x1b[32m",
         red: "\x1b[31m",
@@ -30,6 +20,7 @@ export default class Logger {
         cyan: "\x1b[36m",
         magenta: "\x1b[35m",
         blue: "\x1b[34m",
+        gray: "\x1b[90m"
     }
 
     private static logPath = path.join(process.cwd(), "output.log");
