@@ -1,4 +1,4 @@
-import { readdir } from "node:fs/promises";
+import { access, readdir } from "node:fs/promises";
 import path from "node:path";
 import connection from ".";
 import Logger from "../structures/Logger";
@@ -10,7 +10,11 @@ interface InitializeConnectionOptions {
 
 export default async function initialize(options: InitializeConnectionOptions) {
 
-    const models = await readdir(path.join(__dirname, "models"));
+    let models: string[] = [];
+    try {
+        models = await readdir(path.join(__dirname, "models"));
+    } catch (err) { }
+    
     for (const index in models) {
         const modelPath = path.join(__dirname, "models", models[index]);
         uncacheModule(modelPath);

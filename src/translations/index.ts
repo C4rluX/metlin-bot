@@ -85,7 +85,6 @@ export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOp
     if (options.lang === "default") {
         const data = translations.get(config.defaults.lang);
         const meta = json.accessByString(`commands.slashCommandsMeta.${name}`, data);
-        console.log({ meta });
         return meta;
     }
 
@@ -94,7 +93,6 @@ export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOp
         const meta = json.accessByString(`commands.slashCommandsMeta.${name}`, data);
         data.general.locales.forEach((locale: string) => { result[locale] = meta; });
     });
-    console.log({ result });
     return result;
 
 }
