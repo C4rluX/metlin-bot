@@ -1,0 +1,9 @@
+{
+    "general": {
+        "name": {
+            "native": "Español",
+            "en": "Spanish"
+        },
+        "locales": ["es-ES"]
+    }
+}

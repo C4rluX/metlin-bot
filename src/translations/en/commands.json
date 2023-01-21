@@ -1,0 +1,77 @@
+{
+    "commands": {
+
+        "slashCommandsMeta": {
+
+            "ping": {
+                "name": "ping",
+                "description": "View the bot's latency"
+            },
+
+            "minecraft": {
+
+                "name": "minecraft",
+                "description": "Minecraft related commands",
+
+                "server": {
+                    "name": "server",
+                    "description": "Let's you see information about a Minecraft server",
+                    "options": {
+                        "ip": {
+                            "name": "ip",
+                            "description": "IP Address of the server"
+                        }
+                    }
+                },
+
+                "profile": {
+                    "name": "perfil",
+                    "description": "Let's you see information about a Minecraft player",
+                    "options": {
+                        "nick": {
+                            "name": "nick",
+                            "description": "Username of the player"
+                        }
+                    }
+                }
+
+            }
+
+        },
+
+        "invalidNick": "The specified Minecraft nick is invalid.",
+
+        "ping": {
+            "title": "Pong!",
+            "discord": "**Discord (API/WebSocket):** <value> ms",
+            "messagesCalculating": "**Messages:** Calculating...",
+            "messages": "**Messages:** <value> ms"
+        },
+
+        "minecraft": {
+
+            "profile": {
+                "notFound": "That player was not found.",
+                "title": "Player information:",
+                "nameField": "Name:",
+                "uuidField": "Unique identifier (UUID):",
+                "skinsError": "An error ocurred when processing the skins of the player. You can try using the command again.",
+                "skinField": "Skin:",
+                "skinLink": "Skin link (click)",
+                "capeField": "Cape:",
+                "capeLink": "Cape link (click)"
+            },
+
+            "server": {
+                "error": "Could not find information about the specified Minecraft server. You can try again with another server.",
+                "javaTitle": "Server information (Minecraft Java):",
+                "ipField": "**IP Address:** <ip>",
+                "playersField": "**Players:** <online>/<max>",
+                "versions": "**Versions:** <versions>",
+                "bannerError": "An error occurred when processing the banner of this server. You can try using the commmand again."
+            }
+
+        }
+
+    }
+}

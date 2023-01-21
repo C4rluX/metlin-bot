@@ -13,3 +13,26 @@ export function parseVariables(json: any, variables: any) {
     const string = JSON.stringify(json);
     return JSON.parse(strings.parseVariables(string, escapeVariablesObject(variables)));
 }
+
+export function accessByString(properties: string, object: any): any {
+
+    try {
+
+        const keys = properties.split(".");
+        let next = {};
+
+        keys.forEach((key) => {
+            if (!Object.keys(next).length) {
+                next = object[key as keyof typeof object];
+            } else {
+                next = next[key as keyof typeof next];
+            }
+        });
+
+        return next;
+        
+    } catch (err) {
+        return null;
+    }
+
+}

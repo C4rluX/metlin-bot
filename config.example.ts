@@ -37,7 +37,7 @@ export default {
         "discordApiRequestsLogs": false,
 
         // Type: boolean
-        // Description: Log Database connection information
+        // Description: Log database connection information
         "databaseLogs": false,
 
         // Type: boolean
@@ -46,7 +46,11 @@ export default {
 
         // Type: boolean
         // Description: Log when the presence changes to another index from the property: presence > list
-        "presenceLogs": false
+        "presenceLogs": false,
+
+        // Type: boolean
+        // Description: Log translation loaded files and not found translations
+        "translationsLogs": false
 
     },
 

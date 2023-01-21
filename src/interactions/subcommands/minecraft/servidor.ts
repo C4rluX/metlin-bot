@@ -4,23 +4,31 @@ import { defaultEmbed } from "../../../utils/embeds";
 import * as banners from "../../../utils/minecraft/servers/banners";
 import queryServerStatus from "../../../utils/minecraft/servers/status-java";
 import { removeColorCodes } from "../../../utils/minecraft/util";
+import * as translations from "../../../translations";
+
+const info = translations.getSlashCommandMeta("minecraft.server", { lang: "default" }) as translations.SlashCommandMeta;
+const data = new SlashCommandSubcommandBuilder()
+.setName(info.name)
+.setDescription(info.description)
+.setNameLocalizations(translations.getSlashCommandMeta("minecraft.server.name", { lang: "all" }))
+.setDescriptionLocalizations(translations.getSlashCommandMeta("minecraft.server.description", { lang: "all" }))
+.addStringOption(
+    new SlashCommandStringOption()
+    .setName(info.options.ip.name)
+    .setDescription(info.options.ip.name)
+    .setNameLocalizations(translations.getSlashCommandMeta("minecraft.server.options.ip.name", { lang: "all" }))
+    .setDescriptionLocalizations(translations.getSlashCommandMeta("minecraft.server.options.ip.description", { lang: "all" }))
+    .setRequired(true)
+)
 
 export default new SlashCommandSubCommand({
-    parent: "minecraft",
-    data: new SlashCommandSubcommandBuilder()
-    .setName("servidor")
-    .setDescription("Te permite ver la información de algún servidor de Minecraft.")
-    .addStringOption(
-        new SlashCommandStringOption()
-        .setName("ip")
-        .setDescription("IP (o dirección) del servidor de Minecraft")
-        .setRequired(true)
-    ),
+    parent: translations.getSlashCommandMeta("minecraft.name", { lang: "default" }),
+    data,
     async run(client, interaction) {
 
         await interaction.deferReply();
 
-        const ip = interaction.options.getString("ip", true).toLowerCase();
+        const ip = interaction.options.getString(info.options.ip.name, true).toLowerCase();
         const [host, port] = ip.split(":");
         
         try {
@@ -33,17 +41,26 @@ export default new SlashCommandSubCommand({
 
         } catch (err: any) {
             return await interaction.editReply({
-                content: "No se pudo obtener información del servidor de Minecraft especificado. Puedes intentar nuevamente con otro servidor.",
+                content: translations.get("commands.minecraft.server.error", { lang: interaction.locale }),
             });
         }
 
         const embed = defaultEmbed()
-        .setTitle(`Información del servidor (Minecraft Java):`)
+        .setTitle(translations.get("commands.minecraft.server.javaTitle", { lang: interaction.locale }))
         .setDescription(
             [
-                `**IP del servidor:** ${escapeMarkdown(host)}`,
-                `**Jugadores:** ${serverInfo.players.online}/${serverInfo.players.max}`,
-                `**Versiones:** ${escapeMarkdown(removeColorCodes(serverInfo.version.name))}`
+                translations.get("commands.minecraft.server.ipField", {
+                    lang: interaction.locale,
+                    variables: { ip: escapeMarkdown(host) }
+                }),
+                translations.get("commands.minecraft.server.playersField", {
+                    lang: interaction.locale,
+                    variables: { online: serverInfo.players.online, max: serverInfo.players.max }
+                }),
+                translations.get("commands.minecraft.server.versions", {
+                    lang: interaction.locale,
+                    variables: { versions: escapeMarkdown(removeColorCodes(serverInfo.version.name)) }
+                })
             ].join("\n")
         )
         .setImage("attachment://banner.png");
@@ -56,14 +73,20 @@ export default new SlashCommandSubCommand({
             embed.setThumbnail("attachment://icon.png");
         }
 
-        const bannerBuffer = await banners.generate({
-            name: ip,
-            players: serverInfo.players,
-            motd: serverInfo.motd,
-            favicon: serverInfo.favicon?.buffer
-        });
-        const banner = new AttachmentBuilder(bannerBuffer, { name: "banner.png" });
-        files.push(banner);
+        try {
+            const bannerBuffer = await banners.generate({
+                name: ip,
+                players: serverInfo.players,
+                motd: serverInfo.motd,
+                favicon: serverInfo.favicon?.buffer
+            });
+            const banner = new AttachmentBuilder(bannerBuffer, { name: "banner.png" });
+            files.push(banner);
+        } catch (err) {
+            return await interaction.editReply({
+                content: translations.get("commands.minecraft.server.error", { lang: interaction.locale }),
+            });
+        }
 
         return await interaction.editReply({ embeds: [embed], files });
 

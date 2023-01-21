@@ -50,7 +50,7 @@ export const MotdFormatCodes = {
 export function formatToRaw(motd: any, useAmpersand?: boolean): string {
 
     if (typeof motd === "string") return motd;
-    let text = (motd.text ?? "") + `${(useAmpersand ? "&" : "§")}r`;
+    let text = (motd?.text ?? "") + `${(useAmpersand ? "&" : "§")}r`;
 
     if (motd.color) {
         const code = Object.keys(MotdColorCodes).find(key => {

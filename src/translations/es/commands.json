@@ -1,0 +1,77 @@
+{
+    "commands": {
+
+        "slashCommandsMeta": {
+
+            "ping": {
+                "name": "ping",
+                "description": "Ver la latencia del bot"
+            },
+            
+            "minecraft": {
+
+                "name": "minecraft",
+                "description": "Comandos relacionados a Minecraft",
+
+                "server": {
+                    "name": "servidor",
+                    "description": "Te permite ver información de algún servidor de Minecraft",
+                    "options": {
+                        "ip": {
+                            "name": "ip",
+                            "description": "Dirección IP del servidor"
+                        }
+                    }
+                },
+
+                "profile": {
+                    "name": "perfil",
+                    "description": "Te permite ver información de algún jugador de Minecraft",
+                    "options": {
+                        "nick": {
+                            "name": "nick",
+                            "description": "Nombre o nick del jugador"
+                        }
+                    }
+                }
+
+            }
+
+        },
+
+        "invalidNick": "El nick de Minecraft especificado es inválido.",
+
+        "ping": {
+            "title": "¡Pong!",
+            "discord": "**Discord (API/WebSocket):** <value> ms",
+            "messagesCalculating": "**Mensajes:** Calculando...",
+            "messages": "**Mensajes:** <value> ms"
+        },
+
+        "minecraft": {
+
+            "profile": {
+                "notFound": "No se pudo encontrar información de ese jugador.",
+                "title": "Información del jugador:",
+                "nameField": "Nombre:",
+                "uuidField": "Identificador único (UUID):",
+                "skinsError": "Ocurrió un error al procesar las skins de este jugador. Puedes intentar ejecutar el comando nuevamente.",
+                "skinField": "Skin:",
+                "skinLink": "Enlace de la skin (click)",
+                "capeField": "Capa:",
+                "capeLink": "Enlace de la capa (click)"
+            },
+
+            "server": {
+                "error": "No se pudo obtener información del servidor de Minecraft especificado. Puedes intentar nuevamente con otro servidor.",
+                "javaTitle": "Información del servidor (Minecraft Java):",
+                "ipField": "**Dirección IP:** <ip>",
+                "playersField": "**Jugadores:** <online>/<max>",
+                "versions": "**Versiones:** <versions>",
+                "bannerError": "Ocurrió un error al procesar el banner de este servidor. Puedes intentar ejecutar el comando nuevamente."
+            }
+
+        }
+
+    }
+}

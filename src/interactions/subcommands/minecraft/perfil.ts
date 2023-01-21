@@ -1,37 +1,45 @@
-import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js"
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand"
-import { testNick } from "../../../utils/minecraft/util";
+import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js";
+import fetch from "node-fetch";
+import * as translations from "../../../translations";
+import Logger from "../../../structures/Logger";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
+import { defaultEmbed } from "../../../utils/embeds";
 import { basicProfile, fullProfile } from "../../../utils/minecraft/users/fetch";
 import { getFullBody, getHead } from "../../../utils/minecraft/users/skins";
-import { defaultEmbed } from "../../../utils/embeds";
-import fetch from "node-fetch";
-import Logger from "../../../structures/Logger";
+import { testNick } from "../../../utils/minecraft/util";
+
+const info = translations.getSlashCommandMeta("minecraft.profile", { lang: "default" }) as translations.SlashCommandMeta;
+const data = new SlashCommandSubcommandBuilder()
+.setName(info.name)
+.setDescription(info.description)
+.setNameLocalizations(translations.getSlashCommandMeta("minecraft.profile.name", { lang: "all" }))
+.setDescriptionLocalizations(translations.getSlashCommandMeta("minecraft.profile.description", { lang: "all" }))
+.addStringOption(
+    new SlashCommandStringOption()
+    .setName(info.options.nick.name)
+    .setDescription(info.options.nick.description)
+    .setNameLocalizations(translations.getSlashCommandMeta("minecraft.profile.options.nick.name", { lang: "all" }))
+    .setDescriptionLocalizations(translations.getSlashCommandMeta("minecraft.profile.options.nick.description", { lang: "all" }))
+    .setRequired(true)
+)
 
 export default new SlashCommandSubCommand({
-    parent: "minecraft",
-    data: new SlashCommandSubcommandBuilder()
-        .setName("perfil")
-        .setDescription("Ver la información de algún jugador de Minecraft")
-        .addStringOption(
-            new SlashCommandStringOption()
-                .setName("nick")
-                .setDescription("Nick del jugador de Minecraft")
-                .setRequired(true)
-        ),
+    parent: translations.getSlashCommandMeta("minecraft.name", { lang: "default" }),
+    data,
     run: async (client, interaction) => {
 
-        const nick = interaction.options.getString("nick") || "";
+        const nick = interaction.options.getString(info.options.nick.name, true);
 
         if (!testNick(nick)) {
             return await interaction.reply({
-                content: "El nick de Minecraft especificado es inválido.",
+                content: translations.get("commands.invalidNick", { lang: interaction.locale }),
                 ephemeral: true
             });
         }
 
         async function nickFetchError() {
             return await interaction.editReply({
-                content: "No se pudo encontrar información de ese jugador."
+                content: translations.get("commands.minecraft.profile.notFound", { lang: interaction.locale }),
             });
         }
 
@@ -50,20 +58,32 @@ export default new SlashCommandSubCommand({
         const texturesData = JSON.parse(Buffer.from(userData.properties?.at(0).value, 'base64').toString('utf8'));
 
         const embed = defaultEmbed()
-            .setTitle("Información del jugador:")
+            .setTitle(translations.get("commands.minecraft.profile.title", { lang: interaction.locale }))
             .addFields(
-                { name: "Nombre del jugador:", value: escapeMarkdown(userData.name || "abc") },
-                { name: "Identificador único (UUID):", value: userData.id || "" },
                 {
-                    name: "Skin:",
-                    value: hyperlink("Enlace de la Skin", texturesData.textures.SKIN.url)
+                    name: translations.get("commands.minecraft.profile.nameField", { lang: interaction.locale }),
+                    value: escapeMarkdown(userData.name || "")
+                },
+                {
+                    name: translations.get("commands.minecraft.profile.uuidField", { lang: interaction.locale }),
+                    value: userData.id || ""
+                },
+                {
+                    name: translations.get("commands.minecraft.profile.skinField", { lang: interaction.locale }),
+                    value: hyperlink( 
+                        translations.get("commands.minecraft.profile.skinLink", { lang: interaction.locale }),
+                        texturesData.textures.SKIN.url
+                    )
                 }
             )
 
         if (texturesData.textures.CAPE) {
             embed.addFields([{
-                name: "Capa:",
-                value: hyperlink("Enlace de la Capa", texturesData.textures.CAPE.url)
+                name: translations.get("commands.minecraft.profile.capeField", { lang: interaction.locale }),
+                value: hyperlink(
+                    translations.get("commands.minecraft.profile.capeLink", { lang: interaction.locale }),
+                    texturesData.textures.CAPE.url
+                )
             }]);
         }
 
@@ -81,7 +101,9 @@ export default new SlashCommandSubCommand({
 
         } catch (err: any) {
             Logger.run(err?.stack, { color: "red" });
-            return await interaction.editReply({ content: "Ocurrió un error al procesar las skins de este jugador. Puedes intentar ejecutar el comando nuevamente." });
+            return await interaction.editReply({
+                content: translations.get("commands.minecraft.profile.skinsError", { lang: interaction.locale }),
+            });
         }
         
         const files = [headAttach, bodyAttach].filter(e => e);

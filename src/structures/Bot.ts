@@ -6,6 +6,7 @@ import Event from "./Event";
 import SlashCommand from "./SlashCommand";
 import Logger from "./Logger";
 import SlashCommandSubCommand from "./SlashCommandSubcommand";
+import uncacheModule from "../utils/uncache-module";
 
 interface BotOptions {
     logging: boolean
@@ -13,14 +14,6 @@ interface BotOptions {
 
 interface LoadBotOptions {
     logging?: boolean
-}
-
-function uncacheModule(path: string) {
-    try {
-        delete require.cache[require.resolve(path)];
-    } catch (err: any) {
-        Logger.run(err?.stack, { color: "red" });
-    }
 }
 
 class Bot extends Client {

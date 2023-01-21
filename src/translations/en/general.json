@@ -1,0 +1,9 @@
+{
+    "general": {
+        "name": {
+            "native": "English",
+            "es": "Inglés"
+        },
+        "locales": ["en-US", "en-GB"]
+    }
+}

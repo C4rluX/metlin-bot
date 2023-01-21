@@ -23,11 +23,11 @@ export default new Command({
         const embed = new EmbedBuilder()
         .setFields([
             {
-                name: "Resultado:",
-                value: resultCodeBlock.length > 1024 ? codeBlock("El resultado es demasiado largo.\nMostrado en la consola.") : resultCodeBlock
+                name: "Result:",
+                value: resultCodeBlock.length > 1024 ? codeBlock("The result is way too long.\nLogged in the console.") : resultCodeBlock
             },
             {
-                name: "Tipo de dato:",
+                name: "Datatype:",
                 value: codeBlock("js", typeof result)
             }
         ])

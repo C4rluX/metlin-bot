@@ -1,4 +1,6 @@
 import config from "../../../config";
+import * as translations from "../../translations";
+import databaseInitialize from "../../database/initialize";
 import Command from "../../structures/Command";
 import Logger from "../../structures/Logger";
 
@@ -12,6 +14,8 @@ export default new Command({
             color: "yellow", ignore: !config.enable.reloadLogs, stringBefore: "\n", category: "Bot"
         });
         
+        await databaseInitialize({ logging: config.enable.reloadLogs });
+        await translations.load({ logging: config.enable.reloadLogs });
         await client.load({ logging: config.enable.reloadLogs });
 
         Logger.run(`Bot reloaded. Done\n`, {
@@ -19,7 +23,7 @@ export default new Command({
         });
 
         return await message.reply({
-            content: "Bot reloaded successfully (Commands, Slash Commands, Events, Discord API REST Events)."
+            content: "Bot reloaded successfully (Commands, Slash Commands, Events, Discord API REST Events, Database, Translations)."
         });
 
     }
