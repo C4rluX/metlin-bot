@@ -8,7 +8,7 @@ import Bot from "./structures/Bot";
 const bot = new Bot({ logging: true });
 
 import config from "../config";
-import * as translations from "./translations";
+import * as translations from "./utils/translations";
 import Logger from "./structures/Logger";
 
 (async () => {

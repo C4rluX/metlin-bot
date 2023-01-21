@@ -1,6 +1,6 @@
 import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js";
 import fetch from "node-fetch";
-import * as translations from "../../../translations";
+import * as translations from "../../../utils/translations";
 import Logger from "../../../structures/Logger";
 import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
 import { defaultEmbed } from "../../../utils/embeds";

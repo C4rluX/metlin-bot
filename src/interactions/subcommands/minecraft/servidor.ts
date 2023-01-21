@@ -4,7 +4,7 @@ import { defaultEmbed } from "../../../utils/embeds";
 import * as banners from "../../../utils/minecraft/servers/banners";
 import queryServerStatus from "../../../utils/minecraft/servers/status-java";
 import { removeColorCodes } from "../../../utils/minecraft/util";
-import * as translations from "../../../translations";
+import * as translations from "../../../utils/translations";
 
 const info = translations.getSlashCommandMeta("minecraft.server", { lang: "default" }) as translations.SlashCommandMeta;
 const data = new SlashCommandSubcommandBuilder()

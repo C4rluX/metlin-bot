@@ -1,5 +1,5 @@
 import config from "../../../config";
-import * as translations from "../../translations";
+import * as translations from "../../utils/translations";
 import databaseInitialize from "../../database/initialize";
 import Command from "../../structures/Command";
 import Logger from "../../structures/Logger";

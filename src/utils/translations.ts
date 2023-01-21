@@ -3,8 +3,8 @@ import { readdir, readFile } from "fs/promises";
 import path from "path";
 import config from "../../config";
 import Logger from "../structures/Logger";
-import * as strings from "../utils/string-related";
-import * as json from "../utils/json-related";
+import * as strings from "./string-related";
+import * as json from "./json-related";
 
 interface LoadTranslationsOptions {
     logging: boolean
@@ -14,15 +14,15 @@ const translations = new Collection<string, any>();
 
 export async function load(options: LoadTranslationsOptions) {
 
-    const folders = await readdir(path.join(__dirname), { withFileTypes: true });
+    const folders = await readdir(path.join(require.main?.path ?? "", "resources", "translations"), { withFileTypes: true });
 
     for (const index in folders) {
         if (!folders[index].isDirectory()) continue;
         const language = folders[index].name;
-        const files = await readdir(path.join(__dirname, language));
+        const files = await readdir(path.join(require.main?.path ?? "", "resources", "translations", language));
         const data = await Promise.all(
             files.map(async (file) => {
-                const filePath = path.join(__dirname, language, file);
+                const filePath = path.join(require.main?.path ?? "", "resources", "translations", language, file);
                 return JSON.parse(await readFile(filePath, { encoding: "utf-8" }));
             })
         )

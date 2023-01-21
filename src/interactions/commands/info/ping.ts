@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import SlashCommand from "../../../structures/SlashCommand";
 import { defaultEmbed } from "../../../utils/embeds";
-import * as translations from "../../../translations";
+import * as translations from "../../../utils/translations";
 
 const info = translations.getSlashCommandMeta("ping", { lang: "default" }) as translations.SlashCommandMeta;
 const data = new SlashCommandBuilder()
