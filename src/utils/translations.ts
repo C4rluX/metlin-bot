@@ -1,6 +1,6 @@
 import { Collection } from "discord.js";
 import { readdir, readFile } from "fs/promises";
-import path from "path";
+import path from "node:path";
 import config from "../../config";
 import Logger from "../structures/Logger";
 import * as strings from "./string-related";
