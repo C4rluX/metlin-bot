@@ -1,12 +1,13 @@
-import { Client, Collection, Partials, Routes, GatewayIntentBits } from "discord.js"
+import { Client, Collection, GatewayIntentBits, Partials, Routes, TextChannel } from "discord.js";
 import { readdir } from "node:fs/promises";
 import * as path from "node:path";
+import config from "../../config";
+import uncacheModule from "../utils/uncache-module";
 import Command from "./Command";
 import Event from "./Event";
-import SlashCommand from "./SlashCommand";
 import Logger from "./Logger";
+import SlashCommand from "./SlashCommand";
 import SlashCommandSubCommand from "./SlashCommandSubcommand";
-import uncacheModule from "../utils/uncache-module";
 
 interface BotOptions {
     logging: boolean
@@ -63,9 +64,9 @@ class Bot extends Client {
             color: "blue", ignore: !options.logging, category: "Bot"
         });
 
-        Logger.run(`Loaded Discord API REST events: ${restEvents.map(e => e.name).join(", ") || "None"}\n`, {
+        Logger.run(`Loaded Discord API REST events: ${restEvents.map(e => e.name).join(", ") || "None"}`, {
             color: "blue", ignore: !options.logging, category: "Bot"
-        })
+        });
 
     }
 

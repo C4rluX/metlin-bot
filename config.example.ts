@@ -60,7 +60,7 @@ export default {
 
         // Type: string
         // Description: Default bot language. Must be one of: "en" | "es"
-        "lang": "es",
+        "lang": "",
 
         // Type: Object
         // Description: Default embeds properties
@@ -116,6 +116,34 @@ export default {
         // - "<serversCount>": Cached (most likely all) servers count
         // - "<usersCount>": Cached users count
         "list": []
+
+    },
+
+    // Type: Object
+    // Description: General colors used in bot embeds and others
+    "colors": {
+
+        // Type: number
+        // Description: General red color
+        "red": 0,
+
+        // Type: number
+        // Description: General green color
+        "green": 0,
+
+    },
+
+    // Type: Object
+    // Description: List of logs channels IDs
+    "logsChannels": {
+
+        // Type: String
+        // Description: New entered guilds logs channel ID
+        "enteredGuilds": "",
+
+        // Type: String
+        // Description: Left guilds logs channel ID
+        "leftGuilds": ""
 
     }
 
