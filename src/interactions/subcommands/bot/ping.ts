@@ -1,31 +1,32 @@
-import { SlashCommandBuilder } from "discord.js";
-import SlashCommand from "../../../structures/SlashCommand";
+import { SlashCommandSubcommandBuilder } from "discord.js";
+import database from "../../../database";
+import databasePing from "../../../database/ping";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
-import databasePing from "../../../database/ping";
-import database from "../../../database";
 
-const info = translations.getSlashCommandMeta("ping", { lang: "default" }) as translations.SlashCommandMeta;
-const data = new SlashCommandBuilder()
+const info = translations.getSlashCommandMeta("bot.ping", { lang: "default" }) as translations.SlashCommandMeta;
+const data = new SlashCommandSubcommandBuilder()
 .setName(info.name)
 .setDescription(info.description)
-.setNameLocalizations(translations.getSlashCommandMeta("ping.name", { lang: "all" }))
-.setDescriptionLocalizations(translations.getSlashCommandMeta("ping.description", { lang: "all" }))
+.setNameLocalizations(translations.getSlashCommandMeta("bot.ping.name", { lang: "all" }))
+.setDescriptionLocalizations(translations.getSlashCommandMeta("bot.ping.description", { lang: "all" }))
 
-export default new SlashCommand({
+export default new SlashCommandSubCommand({
+    parent: translations.getSlashCommandMeta("bot.name", { lang: "default" }),
     data,
     async run(client, interaction) {
 
         const description = [
-            translations.get("commands.ping.discord", {
+            translations.get("commands.bot.ping.discord", {
                 lang: interaction.locale,
                 variables: { value: client.ws.ping }
             }),
-            translations.get("commands.ping.database", {
+            translations.get("commands.bot.ping.database", {
                 lang: interaction.locale,
                 variables: { value: (await databasePing()).toFixed(2), databaseName: database.getDialect() }
             }),
-            translations.get("commands.ping.messagesCalculating", {
+            translations.get("commands.bot.ping.messagesCalculating", {
                 lang: interaction.locale
             })
         ]
@@ -33,13 +34,13 @@ export default new SlashCommand({
         const timestamp = Date.now();
 
         const embed = defaultEmbed()
-        .setTitle(translations.get("commands.ping.title", { lang: interaction.locale }))
+        .setTitle(translations.get("commands.bot.ping.title", { lang: interaction.locale }))
         .setDescription(description.join("\n"))
         .setThumbnail(client.user?.displayAvatarURL({ extension: "png", size: 128 }) ?? "")
 
         await interaction.reply({ embeds: [embed] });
 
-        description[2] = translations.get("commands.ping.messages", {
+        description[2] = translations.get("commands.bot.ping.messages", {
             lang: interaction.locale,
             variables: { value: Date.now() - timestamp }
         });

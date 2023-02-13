@@ -35,7 +35,7 @@ export async function load(options: LoadTranslationsOptions) {
 
 }
 
-export function validate(language: string) {
+function validate(language: string) {
     const langByLocale = [...translations.keys()].find(key => {
         const data = translations.get(key);
         return data.general.locales.includes(language);
@@ -56,8 +56,8 @@ export function get(name: string, options?: GetStringOptions): any {
     let data = json.accessByString(name, object);
 
     if (!data) {
-        Logger.run(`Not found: ${name} (from language "${lang}")`, {
-            color: "blue", ignore: !config.enable.translationsLogs, category: "Translations"
+        Logger.run(`Not found: ${name} (from language "${lang}")\n`, {
+            color: "yellow", ignore: !config.enable.translationsLogs, category: "Translations", stringBefore: "\n"
         });
     }
 

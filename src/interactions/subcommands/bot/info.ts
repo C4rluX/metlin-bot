@@ -1,28 +1,29 @@
-import { escapeMarkdown, OAuth2Scopes, PermissionResolvable, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import SlashCommand from "../../../structures/SlashCommand";
+import { escapeMarkdown, OAuth2Scopes, PermissionResolvable, SlashCommandSubcommandBuilder } from "discord.js";
+import config from "../../../../config";
+import { devDependencies, repository } from "../../../../package.json";
+import database from "../../../database";
+import databasePing from "../../../database/ping";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
 import { bytesToReadable } from "../../../utils/conversions";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
-import database from "../../../database";
-import databasePing from "../../../database/ping";
-import config from "../../../../config";
-import { devDependencies, repository } from "../../../../package.json"
 
-const info = translations.getSlashCommandMeta("info", { lang: "default" }) as translations.SlashCommandMeta;
-const data = new SlashCommandBuilder()
+const info = translations.getSlashCommandMeta("bot.info", { lang: "default" }) as translations.SlashCommandMeta;
+const data = new SlashCommandSubcommandBuilder()
 .setName(info.name)
 .setDescription(info.description)
-.setNameLocalizations(translations.getSlashCommandMeta("info.name", { lang: "all" }))
-.setDescriptionLocalizations(translations.getSlashCommandMeta("info.description", { lang: "all" }))
+.setNameLocalizations(translations.getSlashCommandMeta("bot.info.name", { lang: "all" }))
+.setDescriptionLocalizations(translations.getSlashCommandMeta("bot.info.description", { lang: "all" }))
 
-export default new SlashCommand({
+export default new SlashCommandSubCommand({
+    parent: translations.getSlashCommandMeta("bot.name", { lang: "default" }),
     data,
     async run(client, interaction) {
         
         const embed = defaultEmbed()
-        .setTitle(translations.get("commands.info.title", { lang: interaction.locale }))
+        .setTitle(translations.get("commands.bot.info.title", { lang: interaction.locale }))
         .setDescription(
-            (translations.get("commands.info.descriptionFields", {
+            (translations.get("commands.bot.info.descriptionFields", {
                 lang: interaction.locale,
                 variables: {
                     botTag: escapeMarkdown(client.user?.tag ?? ""),
@@ -47,7 +48,8 @@ export default new SlashCommand({
                 }
             }) as string[]).join("\n")
         )
-        
+        .setThumbnail(client.user?.avatarURL({ extension: "png", size: 256 }) ?? client.user?.defaultAvatarURL ?? "")
+
         return await interaction.reply({ embeds: [embed] });
 
     },

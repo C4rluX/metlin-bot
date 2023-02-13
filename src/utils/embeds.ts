@@ -2,6 +2,7 @@ import { EmbedBuilder } from "discord.js";
 import config from "../../config";
 import bot from "../index";
 import { randomRange } from "./number-related";
+import { parseVariables } from "./string-related";
 
 export function randomColor() {
     return config.defaults.embeds.colors[
@@ -10,8 +11,9 @@ export function randomColor() {
 }
 
 export function getFooter() {
-    return config.defaults.embeds.footer
-    .replaceAll("<botname>", bot.user?.username ?? "")
+    return parseVariables(config.defaults.embeds.footer, {
+        botname: bot.user?.username ?? ""
+    })
 }
 
 export function defaultEmbed() {

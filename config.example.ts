@@ -50,7 +50,11 @@ export default {
 
         // Type: boolean
         // Description: Log translation loaded files and not found translations
-        "translationsLogs": false
+        "translationsLogs": false,
+
+        // Type: boolean
+        // Description: Log information related to logs channels
+        "logsChannelsLogs": false
 
     },
 
@@ -138,16 +142,24 @@ export default {
     },
 
     // Type: Object
-    // Description: List of logs channels IDs
+    // Description: List of logs channels IDs. If the bot tries to access one of them, and its empty, it's only going to show a warning in the console (if you enabled the property: enable > logsChannelsLogs)
     "logsChannels": {
 
-        // Type: String
+        // Type: String | null
         // Description: New entered guilds logs channel ID
         "enteredGuilds": "",
 
-        // Type: String
+        // Type: String | null
         // Description: Left guilds logs channel ID
-        "leftGuilds": ""
+        "leftGuilds": "",
+
+        // Type: String | null
+        // Description: Bot reports logs channel ID
+        "botReports": "",
+
+        // Type: String | null
+        // Description: Bot suggestions logs channel ID
+        "botSuggestions": ""
 
     }
 

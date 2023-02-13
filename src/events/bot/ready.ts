@@ -21,10 +21,10 @@ export default new Event({
 
         await canvasPreloads.load({ logging: config.enable.preloadsLogs });
         
-        Logger.run(`Started succesfully as: ${client.user?.tag}`, {
-            color: "green", stringBefore: "\n", category: "Bot"
-        });
-        
+        startPresenceUpdater(client);
+        await logging.loadChannels(client);
+        client.loaded = true;
+
         Logger.run(`Environment enabled (by config): ${
             Object.keys(config.enable)
             .filter(key => config.enable[key as keyof typeof config.enable])
@@ -39,9 +39,9 @@ export default new Event({
             .join(", ")
         }\n`, { color: "blue", category: "Bot" });
 
-        startPresenceUpdater(client);
-        await logging.loadChannels(client);
-        client.loaded = true;
+        Logger.run(`Started succesfully as: ${client.user?.tag}\n`, {
+            color: "green", stringBefore: "\n", category: "Bot"
+        });
 
     }
 })

@@ -3,14 +3,43 @@
 
         "slashCommandsMeta": {
 
-            "ping": {
-                "name": "ping",
-                "description": "View the bot's latency"
-            },
-            
-            "info": {
-                "name": "info",
-                "description": "View the bot's info"
+            "bot": {
+                
+                "name": "bot",
+                "description": "Bot related commands",
+
+                "ping": {
+                    "name": "ping",
+                    "description": "View the bot's latency"
+                },
+                
+                "info": {
+                    "name": "info",
+                    "description": "View the bot's info"
+                },
+
+                "suggestion": {
+                    "name": "suggestion",
+                    "description": "Let's you send a private suggestion related to the bot",
+                    "options": {
+                        "suggestion": {
+                            "name": "suggestion",
+                            "description": "Suggestion to send"
+                        }
+                    }
+                },
+    
+                "report": {
+                    "name": "report",
+                    "description": "Let's you send a private report related to the bot",
+                    "options": {
+                        "report": {
+                            "name": "report",
+                            "description": "Report to send"
+                        }
+                    }
+                }
+
             },
 
             "minecraft": {
@@ -46,28 +75,42 @@
 
         "invalidNick": "The specified Minecraft nick is invalid.",
 
-        "ping": {
-            "title": "Pong!",
-            "discord": "- **Discord (API/WebSocket):** <value> ms",
-            "database": "- **Database (<databaseName>):** <value> ms",
-            "messagesCalculating": "- **Messages:** Calculating...",
-            "messages": "- **Messages:** <value> ms"
-        },
+        "bot": {
 
-        "info": {
-            "title": "Bot information:",
-            "descriptionFields": [
-                "- **Name:** <botTag>",
-                "- **ID:** <id>",
-                "- **Creator(s):** <onwersTags>",
-                "- **Platform:** [TypeScript v<typescriptVersion>](https://typescriptlang.org) | [Node.js v<nodeVersion>](https://nodejs.org)",
-                "- **Commands:** <commandsLength>",
-                "- **Used memory:** <memoryUsed>",
-                "- **Active time:** <uptime>",
-                "- **Ping:** <discordPing> ms with the Discord API | <databasePing> ms with the database (<databaseName>)",
-                "- **Invite link:** [Click here](<inviteLink>)",
-                "- **Repository:** [Click here](<repositoryLink>)"
-            ]
+            "ping": {
+                "title": "Pong!",
+                "discord": "- **Discord (API/WebSocket):** <value> ms",
+                "database": "- **Database (<databaseName>):** <value> ms",
+                "messagesCalculating": "- **Messages:** Calculating...",
+                "messages": "- **Messages:** <value> ms"
+            },
+    
+            "info": {
+                "title": "Bot information:",
+                "descriptionFields": [
+                    "- **Name:** <botTag>",
+                    "- **ID:** <id>",
+                    "- **Creator(s):** <onwersTags>",
+                    "- **Platform:** [TypeScript v<typescriptVersion>](https://typescriptlang.org) | [Node.js v<nodeVersion>](https://nodejs.org)",
+                    "- **Commands:** <commandsLength>",
+                    "- **Used memory:** <memoryUsed>",
+                    "- **Active time:** <uptime>",
+                    "- **Ping:** <discordPing> ms with the Discord API | <databasePing> ms with the database (<databaseName>)",
+                    "- **Invite link:** [Click here](<inviteLink>)",
+                    "- **Repository:** [Click here](<repositoryLink>)"
+                ]
+            },
+
+            "report": {
+                "success": "Your report was sent successfully! Thank you for your feedback.",
+                "error": "An error ocurred when sending the report. You can try it again."
+            },
+
+            "suggestion": {
+                "success": "Your suggestion was sent successfully! Thank you for your feedback.",
+                "error": "An error ocurred when sending the suggestion. You can try it again."
+            }
+
         },
 
         "minecraft": {

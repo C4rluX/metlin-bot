@@ -18,7 +18,7 @@ interface LoadBotOptions {
     logging?: boolean
 }
 
-interface SimpleMessagePayload {
+export interface SimpleMessagePayload {
     content?: string,
     embeds?: EmbedBuilder[],
     components: ActionRowBuilder[],
@@ -32,10 +32,20 @@ class Bot extends Client {
         commands: new Collection<string, SlashCommand>(),
         subcommands: new Collection<string, SlashCommandSubCommand>(),
     }
-    public loaded = false;
     public botOptions: BotOptions;
     public owners: User[] = [];
-    public startedAt: number = Date.now();
+    public startedAt: number = 0;
+
+    private _loaded: boolean = false;
+
+    get loaded() {
+        return this._loaded;
+    }
+
+    set loaded(x: boolean) {
+        if (x) this.startedAt = Date.now();
+        this._loaded = x;
+    }
 
     constructor(options: BotOptions) {
         super({

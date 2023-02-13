@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import SlashCommand from "../../../structures/SlashCommand";
 import * as translations from "../../../utils/translations";
-import profileSubcommand from "../../subcommands/minecraft/perfil";
-import serverSubcommand from "../../subcommands/minecraft/servidor";
+import profileSubcommand from "../../subcommands/minecraft/profile";
+import serverSubcommand from "../../subcommands/minecraft/server";
 
 const info = translations.getSlashCommandMeta("minecraft", { lang: "default" }) as translations.SlashCommandMeta;
 const data = new SlashCommandBuilder()
