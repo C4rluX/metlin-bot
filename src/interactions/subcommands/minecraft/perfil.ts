@@ -1,5 +1,4 @@
 import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js";
-import fetch from "node-fetch";
 import * as translations from "../../../utils/translations";
 import Logger from "../../../structures/Logger";
 import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
@@ -89,7 +88,9 @@ export default new SlashCommandSubCommand({
 
         try {
 
-            const skinBuffer = await (await fetch(texturesData.textures.SKIN.url)).buffer();
+            const skinBuffer = Buffer.from(
+                await (await fetch(texturesData.textures.SKIN.url)).arrayBuffer()
+            )
 
             const head = await getHead(skinBuffer, { scale: 32 });
             var headAttach = new AttachmentBuilder(head, { name: `head.png` });

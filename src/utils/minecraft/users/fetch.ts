@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 interface MinecraftBasicProfile {
     name?: string,
     id?: string,

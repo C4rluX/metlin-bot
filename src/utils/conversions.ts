@@ -1,5 +1,3 @@
-
-
 interface BytesToReadableOptions {
     decimals?: number,
 }

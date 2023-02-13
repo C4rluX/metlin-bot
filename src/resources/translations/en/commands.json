@@ -24,7 +24,7 @@
                     "options": {
                         "ip": {
                             "name": "ip",
-                            "description": "IP Address of the server"
+                            "description": "IP address of the server"
                         }
                     }
                 },
@@ -86,7 +86,7 @@
             "server": {
                 "error": "Could not find information about the specified Minecraft server. You can try again with another server.",
                 "javaTitle": "Server information (Minecraft Java):",
-                "ipField": "**IP Address:** <ip>",
+                "ipField": "**IP address:** <ip>",
                 "playersField": "**Players:** <online>/<max>",
                 "versions": "**Versions:** <versions>",
                 "bannerError": "An error occurred when processing the banner of this server. You can try using the commmand again."
