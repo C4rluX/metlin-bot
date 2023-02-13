@@ -64,7 +64,7 @@
                 "- **Comandos:** <commandsLength>",
                 "- **Memoria usada:** <memoryUsed>",
                 "- **Tiempo activo:** <uptime>",
-                "- **Ping:** <discordPing>ms con la Discord API | <databasePing>ms con la base de datos (<databaseName>)",
+                "- **Ping:** <discordPing> ms con la Discord API | <databasePing> ms con la base de datos (<databaseName>)",
                 "- **Enlace de invitación:** [Click aquí](<inviteLink>)"
             ]
         },
