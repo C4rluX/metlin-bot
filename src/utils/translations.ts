@@ -46,8 +46,7 @@ export function validate(language: string) {
 
 interface GetStringOptions {
     lang?: string,
-    variables?: any,
-    slashCommandMeta?: "default" | "all"
+    variables?: any
 }
 
 export function get(name: string, options?: GetStringOptions): any {
@@ -63,7 +62,7 @@ export function get(name: string, options?: GetStringOptions): any {
     }
 
     if (options?.variables && data) {
-        data = typeof data === "string" ? strings.parseVariables(data, options.variables) : json.parseVariables(data, options.variables);
+        data = typeof data === "string" ? strings.parseVariables(data, options?.variables) : json.parseVariables(data, options?.variables);
     }
 
     return data;
@@ -80,7 +79,7 @@ interface GetSlashCommandMetaOptions {
     lang: "all" | "default"
 }
 
-export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOptions) {
+export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOptions): any {
 
     if (options.lang === "default") {
         const data = translations.get(config.defaults.lang);
@@ -95,4 +94,59 @@ export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOp
     });
     return result;
 
+}
+
+interface SecondsToReadableOptions {
+    lang?: string,
+    usingMiliseconds?: boolean 
+}
+
+export function secondsToReadable(secs: number, options?: SecondsToReadableOptions) {
+    
+    secs = Math.abs(Math.round(options?.usingMiliseconds ? secs / 1000 : secs));
+    let timeData = {};
+
+    if (secs < 3600) {
+
+        const minutes = Math.floor(secs / 60);
+        const seconds = secs - 60 * minutes;
+        timeData = { minute: minutes, second: seconds }
+
+    } else {
+
+        const minutesRest = Math.floor(secs / 60);
+
+        const hours = Math.floor(minutesRest / 60);
+        const minutes = minutesRest - 60 * hours;
+        const seconds = secs - (60 * minutes) - hours * 60 * 60;
+
+        timeData = { hour: hours, minute: minutes, second: seconds }
+
+    }
+
+    const strings = get("general.time", { lang: options?.lang });
+
+    return languageBasedJoin(
+        Object.keys(timeData)
+        .filter(e => timeData[e as keyof typeof timeData])
+        .map(e => `${timeData[e as keyof typeof timeData]} ${
+            (timeData[e as keyof typeof timeData] == 1) ?
+            strings[e].word.toLowerCase() :
+            strings[e].plural.toLowerCase()
+        }`),
+        { lang: options?.lang }
+    );
+    
+}
+
+interface LanguageBasedJoinOptions {
+    lang?: string
+}
+
+export function languageBasedJoin(array: string[], options?: LanguageBasedJoinOptions) {
+    if (array.length < 2) { return array.join(""); }
+    else {
+        const last = array.pop();
+        return `${array.join(", ")} ${get("general.misc.and", { lang: options?.lang })} ${last}`;
+    }
 }

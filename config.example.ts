@@ -76,7 +76,11 @@ export default {
             // - "<botname>": Bot username
             "footer": ""
 
-        }
+        },
+
+        // Type: PermissionResolvable
+        // Description: Permissions of bot-generated invite links. This has to be a PermissionResolvable (from discord.js): https://discord.js.org/#/docs/discord.js/main/typedef/PermissionResolvable
+        "inviteLinkPermissions": []
 
     },
     
@@ -89,7 +93,7 @@ export default {
         "activated": false,
 
         // Type: Array<string>
-        // Description: List of channel IDs. When developer mode is activated, commands are going to work only on the channels listed here. When developer mode is disabled, nothing works in these channels
+        // Description: List of channel IDs. When developer mode is activated, interactions and messages are ONLY going to be listened on the channels listed here. When developer mode is disabled, nothing works in these channels
         "channels": [],
 
         // Type: boolean

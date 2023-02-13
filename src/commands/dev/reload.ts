@@ -10,6 +10,8 @@ export default new Command({
     developersOnly: true,
     run: async (client, message, args) => {
 
+        await message.channel.sendTyping();
+
         Logger.run(`Reloading...`, {
             color: "yellow", ignore: !config.enable.reloadLogs, stringBefore: "\n", category: "Bot"
         });
@@ -19,7 +21,7 @@ export default new Command({
         await client.load({ logging: config.enable.reloadLogs });
 
         Logger.run(`Bot reloaded. Done\n`, {
-            color: "yellow", ignore: !config.enable.reloadLogs, category: "Bot"
+            color: "yellow", ignore: !config.enable.reloadLogs, category: "Bot", stringBefore: "\n"
         });
 
         return await message.reply({

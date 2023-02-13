@@ -2,6 +2,8 @@ import { SlashCommandBuilder } from "discord.js";
 import SlashCommand from "../../../structures/SlashCommand";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
+import databasePing from "../../../database/ping";
+import database from "../../../database";
 
 const info = translations.getSlashCommandMeta("ping", { lang: "default" }) as translations.SlashCommandMeta;
 const data = new SlashCommandBuilder()
@@ -19,7 +21,13 @@ export default new SlashCommand({
                 lang: interaction.locale,
                 variables: { value: client.ws.ping }
             }),
-            translations.get("commands.ping.messagesCalculating", { lang: interaction.locale })
+            translations.get("commands.ping.database", {
+                lang: interaction.locale,
+                variables: { value: (await databasePing()).toFixed(2), databaseName: database.getDialect() }
+            }),
+            translations.get("commands.ping.messagesCalculating", {
+                lang: interaction.locale
+            })
         ]
         
         const timestamp = Date.now();
@@ -29,9 +37,9 @@ export default new SlashCommand({
         .setDescription(description.join("\n"))
         .setThumbnail(client.user?.displayAvatarURL({ extension: "png", size: 128 }) ?? "")
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed] });
 
-        description[1] = translations.get("commands.ping.messages", {
+        description[2] = translations.get("commands.ping.messages", {
             lang: interaction.locale,
             variables: { value: Date.now() - timestamp }
         });

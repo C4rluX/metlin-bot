@@ -7,6 +7,11 @@
                 "name": "ping",
                 "description": "Ver la latencia del bot"
             },
+
+            "info": {
+                "name": "info",
+                "description": "Ver información del bot"
+            },
             
             "minecraft": {
 
@@ -43,9 +48,25 @@
 
         "ping": {
             "title": "¡Pong!",
-            "discord": "**Discord (API/WebSocket):** <value> ms",
-            "messagesCalculating": "**Mensajes:** Calculando...",
-            "messages": "**Mensajes:** <value> ms"
+            "discord": "- **Discord (API/WebSocket):** <value> ms",
+            "database": "- **Base de datos (<databaseName>):** <value> ms",
+            "messagesCalculating": "- **Mensajes:** Calculando...",
+            "messages": "- **Mensajes:** <value> ms"
+        },
+        
+        "info": {
+            "title": "Información del bot:",
+            "descriptionFields": [
+                "- **Nombre:** <botTag>",
+                "- **ID:** <id>",
+                "- **Creador(es):** <onwersTags>",
+                "- **Plataforma:** [TypeScript v<typescriptVersion>](https://typescriptlang.org) | [Node.js v<nodeVersion>](https://nodejs.org)",
+                "- **Comandos:** <commandsLength>",
+                "- **Memoria usada:** <memoryUsed>",
+                "- **Tiempo activo:** <uptime>",
+                "- **Ping:** <discordPing>ms con la Discord API | <databasePing>ms con la base de datos (<databaseName>)",
+                "- **Enlace de invitación:** [Click aquí](<inviteLink>)"
+            ]
         },
 
         "minecraft": {

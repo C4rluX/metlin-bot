@@ -22,7 +22,7 @@ export function startPresenceUpdater(client: Client) {
     function interval() {
         const index = getRandomPresenceIndex();
         client.user?.setPresence(
-            parseVariables(config.presence.list.at(index) ?? {}, {
+            parseVariables(config.presence.list.at(index), {
                 serversCount: bot.guilds.cache.size,
                 usersCount: bot.users.cache.size
             })

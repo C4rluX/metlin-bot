@@ -15,7 +15,7 @@ const allowedToRun = (command: Command, message: Message): boolean => {
 
 }
 
-export default (client: Bot, message: Message): void => {
+export default (client: Bot, message: Message) => {
 
     if (config.devMode.activated && !config.devMode.channels.includes(message.channelId)) return;
     if (!config.devMode.activated && config.devMode.channels.includes(message.channelId)) return;

@@ -3,7 +3,7 @@ import Bot from "../structures/Bot";
 import config from "../../config";
 import Logger from "../structures/Logger";
 
-export default async (client: Bot, interaction: ChatInputCommandInteraction): Promise<void> => {
+export default async (client: Bot, interaction: ChatInputCommandInteraction) => {
 
     if (config.devMode.activated && !config.devMode.channels.includes(interaction.channelId)) return;
     if (!config.devMode.activated && config.devMode.channels.includes(interaction.channelId)) return;
@@ -14,11 +14,10 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction): Pr
     if (!command) return;
     
     if (interaction.channel?.isDMBased() || !interaction.guild) {
-        await interaction.reply({
+        return await interaction.reply({
             content: "¡Los comandos del bot no pueden ser ejecutados desde mensajes directos o canales que no pertenezcan a servidores!",
             ephemeral: true
         });
-        return;
     }
 
     if (interaction.options.getSubcommand(false)) {

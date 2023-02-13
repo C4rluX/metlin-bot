@@ -4,6 +4,15 @@
             "native": "Español",
             "en": "Spanish"
         },
-        "locales": ["es-ES"]
+        "locales": ["es-ES"],
+        "time": {
+            "day": { "word": "Día", "plural": "Días" },
+            "hour": { "word": "Hora", "plural": "Horas" },
+            "minute": { "word": "Minuto", "plural": "Minutos" },
+            "second": { "word": "Segundo", "plural": "Segundos" }
+        },
+        "misc": {
+            "and": "y"
+        }
     }
 }

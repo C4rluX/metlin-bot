@@ -1,13 +1,14 @@
-import { Client, Collection, GatewayIntentBits, Partials, Routes, TextChannel } from "discord.js";
+import { ActionRowBuilder, Client, Collection, EmbedBuilder, GatewayIntentBits, Partials, REST, Routes, TextChannel, User } from "discord.js";
 import { readdir } from "node:fs/promises";
+import { Dirent } from "node:fs";
 import * as path from "node:path";
-import config from "../../config";
 import uncacheModule from "../utils/uncache-module";
 import Command from "./Command";
 import Event from "./Event";
 import Logger from "./Logger";
 import SlashCommand from "./SlashCommand";
 import SlashCommandSubCommand from "./SlashCommandSubcommand";
+import config from "../../config";
 
 interface BotOptions {
     logging: boolean
@@ -17,15 +18,24 @@ interface LoadBotOptions {
     logging?: boolean
 }
 
+interface SimpleMessagePayload {
+    content?: string,
+    embeds?: EmbedBuilder[],
+    components: ActionRowBuilder[],
+    ephemeral?: boolean
+}
+
 class Bot extends Client {
 
-    public commands = new Collection<String, Command>();
+    public commands = new Collection<string, Command>();
     public interactions = {
-        commands: new Collection<String, SlashCommand>(),
-        subcommands: new Collection<String, SlashCommandSubCommand>(),
+        commands: new Collection<string, SlashCommand>(),
+        subcommands: new Collection<string, SlashCommandSubCommand>(),
     }
     public loaded = false;
     public botOptions: BotOptions;
+    public owners: User[] = [];
+    public startedAt: number = Date.now();
 
     constructor(options: BotOptions) {
         super({
@@ -38,6 +48,7 @@ class Bot extends Client {
             partials: [Partials.Message, Partials.Reaction],
             allowedMentions: { repliedUser: false, parse: ['roles', 'users'] }
         });
+        this.rest.setToken(process.env.BOT_TOKEN ?? "")
         this.botOptions = options;
     }
 
@@ -45,9 +56,9 @@ class Bot extends Client {
 
         this.removeAllListeners();
 
-        this.commands = await this.loadCommands("commands");
-        this.interactions.commands = await this.loadCommands("interactions/commands");
-        this.interactions.subcommands = await this.loadCommands("interactions/subcommands");
+        this.commands = await this.loadModules("commands") as Collection<string, Command>;
+        this.interactions.commands = await this.loadModules("interactions/commands") as Collection<string, SlashCommand>;
+        this.interactions.subcommands = await this.loadModules("interactions/subcommands") as Collection<string, SlashCommandSubCommand>;
 
         const botEvents = await this.loadEvents("bot");
         const restEvents = await this.loadEvents("rest");
@@ -68,10 +79,19 @@ class Bot extends Client {
             color: "blue", ignore: !options.logging, category: "Bot"
         });
 
+        this.owners = await Promise.all(
+            config.developers.map(id => this.users.fetch(id))
+        )
+
+        Logger.run(`Loaded owners: ${this.owners.map(e => e.tag) || "None"}`, {
+            color: "blue", ignore: !options.logging, category: "Bot"
+        });
+
     }
 
     async start() {
         this.login(process.env.BOT_TOKEN)
+        .then(() => { this.startedAt = Date.now() })
         .catch(err => {
             Logger.run(`Error when starting client:\n${err.stack ? err.stack : err}`, {
                 color: "red", category: "Fatal"
@@ -80,10 +100,13 @@ class Bot extends Client {
         });
     }
 
-    async loadCommands(where: "commands" | "interactions/commands" | "interactions/subcommands"): Promise<Collection<any, any>> {
+    async loadModules(where: "commands" | "interactions/commands" | "interactions/subcommands" | "interactions/buttons"): Promise<Collection<any, any>> {
 
-        const folders = await readdir(path.join(require.main?.path || "", where), { withFileTypes: true });
+        let folders: Dirent[] = [];
         const collection = new Collection<any, any>();
+        try {
+            folders = await readdir(path.join(require.main?.path || "", where), { withFileTypes: true });
+        } catch (err) { return collection; }
         for (const index in folders) {
             const folder = folders[index];
             if (!folder.isDirectory()) continue;
@@ -91,8 +114,8 @@ class Bot extends Client {
             for (const index in files) {
                 const filePath = path.join(require.main?.path || "", where, folder.name, files[index]);
                 uncacheModule(filePath);
-                const command = (await import(filePath)).default;
-                collection.set(where === "commands" ? command.name : command.data.name, command);
+                const module = (await import(filePath)).default;
+                collection.set(module.name ? module.name : module.data.name, module);
             }
         }
         return collection;
@@ -102,8 +125,12 @@ class Bot extends Client {
     async loadEvents(where: "bot" | "rest") {
 
         const events: Event[] = [];
-        const files = (await readdir(path.join(require.main?.path || "", `events`, where))).filter(e => e.endsWith(".ts") || e.endsWith(".js"));
-
+        let files: string[] = [];
+        try {
+            files = (await readdir(path.join(require.main?.path || "", `events`, where)))
+            .filter(e => e.endsWith(".ts") || e.endsWith(".js"));
+        } catch (err) { return events; }
+        
         for (const index in files) {
 
             const filePath = path.join(require.main?.path || "", `events`, where, files[index]);
