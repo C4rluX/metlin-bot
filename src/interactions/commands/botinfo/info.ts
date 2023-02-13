@@ -6,7 +6,7 @@ import * as translations from "../../../utils/translations";
 import database from "../../../database";
 import databasePing from "../../../database/ping";
 import config from "../../../../config";
-import { devDependencies } from "../../../../package.json"
+import { devDependencies, repository } from "../../../../package.json"
 
 const info = translations.getSlashCommandMeta("info", { lang: "default" }) as translations.SlashCommandMeta;
 const data = new SlashCommandBuilder()
@@ -42,7 +42,8 @@ export default new SlashCommand({
                     inviteLink: client.generateInvite({
                         scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
                         permissions: config.defaults.inviteLinkPermissions as PermissionResolvable
-                    })
+                    }),
+                    repositoryLink: repository.url
                 }
             }) as string[]).join("\n")
         )

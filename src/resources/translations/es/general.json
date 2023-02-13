@@ -13,6 +13,9 @@
         },
         "misc": {
             "and": "y"
+        },
+        "messages": {
+            "invalidCommandChannel": "¡Los comandos del bot no pueden ser ejecutados desde mensajes directos o canales que no pertenezcan a servidores!"
         }
     }
 }

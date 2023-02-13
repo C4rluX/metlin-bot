@@ -2,6 +2,7 @@ import { ChatInputCommandInteraction } from "discord.js";
 import Bot from "../structures/Bot";
 import config from "../../config";
 import Logger from "../structures/Logger";
+import * as translations from "../utils/translations";
 
 export default async (client: Bot, interaction: ChatInputCommandInteraction) => {
 
@@ -15,7 +16,9 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction) => 
     
     if (interaction.channel?.isDMBased() || !interaction.guild) {
         return await interaction.reply({
-            content: "¡Los comandos del bot no pueden ser ejecutados desde mensajes directos o canales que no pertenezcan a servidores!",
+            content: translations.get("general.messages.invalidCommandChannel", {
+                lang: interaction.locale
+            }),
             ephemeral: true
         });
     }

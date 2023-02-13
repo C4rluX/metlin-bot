@@ -13,6 +13,9 @@
         },
         "misc": {
             "and": "and"
+        },
+        "messages": {
+            "invalidCommandChannel": "Bot commands can't be executed from direct messages or channels that not belong to guilds!"
         }
     }
 }

@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "A multipurpose Discord Bot.",
     "main": "index.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/C4rluX/metlin-bot.git"
+    },
     "scripts": {
         "clean": "npx rimraf dist",
         "build": "npx tsc && npx copyfiles src/resources/*.* dist && npx copyfiles src/resources/*/*.* dist && npx copyfiles src/resources/*/*/*.* dist",
