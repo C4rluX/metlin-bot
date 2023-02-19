@@ -1,6 +1,6 @@
 import { SlashCommandSubcommandBuilder } from "discord.js";
 import * as database from "../../../database";
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
+import SlashCommandSubCommand from "../../../structures/SlashSubCommand";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
 

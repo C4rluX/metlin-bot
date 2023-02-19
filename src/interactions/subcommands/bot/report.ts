@@ -1,6 +1,6 @@
 import { SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js";
 import { botReport } from "../../../controllers/logging";
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
+import SlashCommandSubCommand from "../../../structures/SlashSubCommand";
 import * as translations from "../../../utils/translations";
 
 const info = translations.getSlashCommandMeta("bot.report", { lang: "default" }) as translations.SlashCommandMeta;

@@ -1,5 +1,5 @@
 import { AttachmentBuilder, escapeMarkdown, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js"
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand"
+import SlashCommandSubCommand from "../../../structures/SlashSubCommand"
 import { defaultEmbed } from "../../../utils/embeds";
 import * as banners from "../../../utils/minecraft/servers/banners";
 import queryServerStatus from "../../../utils/minecraft/servers/status-java";

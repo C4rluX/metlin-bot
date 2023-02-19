@@ -7,7 +7,7 @@ import Command from "./Command";
 import Event from "./Event";
 import Logger from "./Logger";
 import SlashCommand from "./SlashCommand";
-import SlashCommandSubCommand from "./SlashCommandSubCommand";
+import SlashCommandSubCommand from "./SlashSubCommand";
 import { getConfig } from "../utils/configuration";
 
 interface BotOptions {
