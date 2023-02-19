@@ -1,4 +1,4 @@
-import { GuildMember, PermissionsBitField, SlashCommandChannelOption, SlashCommandStringOption, SlashCommandSubcommandBuilder, TextChannel } from "discord.js";
+import { ChannelType, GuildMember, PermissionsBitField, SlashCommandChannelOption, SlashCommandStringOption, SlashCommandSubcommandBuilder, TextChannel, VoiceBasedChannel, VoiceChannel } from "discord.js";
 import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
 import { hasRoleHereOrEveryoneMention } from "../../../utils/discord-related";
 import * as translations from "../../../utils/translations";
@@ -34,6 +34,19 @@ export default new SlashCommandSubCommand({
         await interaction.deferReply({ ephemeral: true });
         const content = interaction.options.getString(info.options.message.name, true);
         const channel = (interaction.options.getChannel(info.options.channel.name) ?? interaction.channel) as TextChannel;
+
+        if (
+            !channel.isThread() &&
+            !channel.isVoiceBased() &&
+            !channel.isTextBased()
+        ) {
+            return await interaction.editReply({
+                content: translations.get("commands.message.send.invalidChannel", {
+                    lang: interaction.locale
+                }),
+                allowedMentions: { parse: [] },
+            })
+        }
 
         const permissions = {
             bot: channel.permissionsFor(interaction.guild?.members.me as GuildMember),
@@ -87,7 +100,16 @@ export default new SlashCommandSubCommand({
             })
         }
         
-        await channel.send({ content });
+        try {
+            await channel.send({ content });
+        } catch (err) {
+            return await interaction.editReply({
+                content: translations.get("commands.message.send.error", {
+                    lang: interaction.locale
+                }),
+                allowedMentions: { parse: [] },
+            })
+        }
 
         return await interaction.editReply({
             content: translations.get("commands.message.send.success", {

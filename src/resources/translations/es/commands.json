@@ -163,12 +163,14 @@
         "message": {
 
             "channelMissingPermissions": {
-                "bot": "El bot no tiene los siguientes permisos en el canal especificado:\n> **<permissions>**",
-                "user": "No tienes los siguientes permisos en el canal especificado:\n> **<permissions>**"
+                "bot": "El bot debe de tener los sigientes permisos en el canal especificado:\n> **<permissions>**",
+                "user": "Debes de tener los sigientes permisos en el canal especificado:\n> **<permissions>**"
             },
 
             "send": {
+                "invalidChannel": "El canal a enviar el mensaje tiene que ser un canal donde se pueda enviar texto.",
                 "hasMentions": "No puedes usar este comando para mencionar roles, @everyone o @here.",
+                "error": "Ocurrió un error al enviar el mensaje. Puedes intentar nuevamente.",
                 "success": "El mensaje ha sido enviado satisfactoriamente en el canal: <channel>"
             }
 
