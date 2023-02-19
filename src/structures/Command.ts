@@ -3,10 +3,10 @@ import Bot from "./Bot";
 
 interface CommandData {
     name: string,
-    alias: Array<string>,
+    alias: string[],
     developersOnly?: boolean,
     public?: boolean,
-    run: (client: Bot, message: Message, args: Array<string>) => void
+    run: (client: Bot, message: Message, args: string[]) => void
 }
 
 export default class Command {

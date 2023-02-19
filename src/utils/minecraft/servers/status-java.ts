@@ -16,10 +16,10 @@ interface JavaStatusResponse {
     players: {
         max: number,
         online: number,
-        sample?: Array<{
+        sample?: {
             name: string,
             id: string
-        }>
+        }[]
     },
     motd: string,
     favicon: {
@@ -105,7 +105,7 @@ export default async function query(options: JavaStatusOptions): Promise<JavaSta
         result.motd = formatToRaw(response.description);
 
         if (response.favicon) {
-            const parts: Array<string> = response.favicon.split(",");
+            const parts: string[] = response.favicon.split(",");
             result.favicon = {
                 buffer: Buffer.from(parts[1], "base64"),
                 mimeType: parts[0].split(";")[0].replace("data:", "")

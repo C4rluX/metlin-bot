@@ -7,7 +7,7 @@ interface MinecraftBasicProfile {
 interface MinecraftFullProfile {
     id?: string,
     name?: string,
-    properties?: Array<any>,
+    properties?: string[],
     errorMessage?: string
 }
 

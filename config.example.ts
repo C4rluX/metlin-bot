@@ -1,10 +1,10 @@
 export default {
 
-    // Type: Array<string>
+    // Type: string[]
     // Description: Developers/owners Discord IDs. The users listed here have maximum permissions on the bot 
     "developers": [],
 
-    // Type: Array<string>
+    // Type: string[]
     // Description: Prefixes for message based commands (located in src/commands)
     "prefixes": [],
 
@@ -70,7 +70,7 @@ export default {
         // Description: Default embeds properties
         "embeds": {
             
-            // Type: Array<number>
+            // Type: number[]
             // Description: By default, bot embeds will have one of the colors listed here (randomly selected)
             "colors": [],
 
@@ -96,7 +96,7 @@ export default {
         // Description: Set if the mode is activated
         "activated": false,
 
-        // Type: Array<string>
+        // Type: string[]
         // Description: List of channel IDs. When developer mode is activated, interactions and messages are ONLY going to be listened on the channels listed here. When developer mode is disabled, nothing works in these channels
         "channels": [],
 
@@ -104,7 +104,7 @@ export default {
         // Description: If this is true, slash commands are going to be registered on the guilds listed on the option below when the bot starts
         "slashCommandsTestingGuildsRegistering": false,
         
-        // Type: Array<string>
+        // Type: string[]
         // Description: List of guild IDs. When the above option is true, slash commands get registered on the guilds listed here
         "guilds": []
 
@@ -118,7 +118,7 @@ export default {
         // Description: Presence change interval in miliseconds
         "updateInterval": 0,
 
-        // Type: Array<PresenceData>
+        // Type: PresenceData[]
         // Description: List of possible presences. On every presence change/interval one of these will be selected randomly. Every item has to be in the format of a PresenceData (from discord.js): https://discord.js.org/#/docs/discord.js/main/typedef/PresenceData
         // Available variables:
         // - "<serversCount>": Cached (most likely all) servers count
