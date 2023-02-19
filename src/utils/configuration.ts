@@ -2,7 +2,10 @@ import path from "node:path";
 import config from "../../config";
 import uncacheModule from "./uncache-module";
 
-const filePath = path.join(process.cwd(), "config")
+let filePath = process.argv.join("").includes("ts-node") ?
+path.join(process.cwd(), "config") : 
+path.join(process.cwd(), "dist", "config");
+
 let data: typeof config | null = null;
 
 export async function load() {
