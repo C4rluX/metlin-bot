@@ -1,5 +1,5 @@
 import { GuildMember, PermissionsBitField, SlashCommandChannelOption, SlashCommandStringOption, SlashCommandSubcommandBuilder, TextChannel } from "discord.js";
-import SlashCommandSubCommand from "../../../structures/SlashSubCommand";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
 import { hasRoleHereOrEveryoneMention } from "../../../utils/discord-related";
 import * as translations from "../../../utils/translations";
 

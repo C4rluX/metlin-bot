@@ -1,7 +1,7 @@
 import { AttachmentBuilder, escapeMarkdown, hyperlink, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "discord.js";
 import * as translations from "../../../utils/translations";
 import Logger from "../../../structures/Logger";
-import SlashCommandSubCommand from "../../../structures/SlashSubCommand";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
 import { defaultEmbed } from "../../../utils/embeds";
 import { basicProfile, fullProfile } from "../../../utils/minecraft/users/fetch";
 import { getFullBody, getHead } from "../../../utils/minecraft/users/skins";

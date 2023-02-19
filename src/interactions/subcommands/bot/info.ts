@@ -1,7 +1,7 @@
 import { escapeMarkdown, OAuth2Scopes, PermissionResolvable, SlashCommandSubcommandBuilder } from "discord.js";
 import { devDependencies, repository } from "../../../../package.json";
 import * as database from "../../../database";
-import SlashCommandSubCommand from "../../../structures/SlashSubCommand";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
 import { getConfig } from "../../../utils/configuration";
 import { bytesToReadable } from "../../../utils/conversions";
 import { defaultEmbed } from "../../../utils/embeds";
