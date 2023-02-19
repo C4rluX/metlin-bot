@@ -1,47 +1,49 @@
 import { ChatInputCommandInteraction, Collection, escapeMarkdown, Guild, MessageCreateOptions, TextChannel } from "discord.js";
-import config from "../../config";
+import bot from "../index";
 import Bot from "../structures/Bot";
 import Logger from "../structures/Logger";
+import { getConfig } from "../utils/configuration";
 import { defaultEmbed } from "../utils/embeds";
 import * as translations from "../utils/translations";
 
-const channels = new Collection<keyof typeof config.logsChannels, TextChannel>();
+const logsChannels = getConfig().logsChannels; // This is only for the typeofs to work
+const channels = new Collection<keyof typeof logsChannels, TextChannel>();
 
-export async function loadChannels(client: Bot) {
+export async function loadChannels() {
 
-    const keys = Object.keys(config.logsChannels);
+    const keys = Object.keys(getConfig().logsChannels);
     for (const index in keys) {
         const key = keys[index];
         try {
-            const id = config.logsChannels[key as keyof typeof config.logsChannels];
+            const id = getConfig().logsChannels[key as keyof typeof logsChannels];
             if (!id) throw new Error();
-            const channel = await client.channels.fetch(id);
-            channels.set(key as keyof typeof config.logsChannels, channel as TextChannel);
+            const channel = await bot.channels.fetch(id);
+            channels.set(key as keyof typeof logsChannels, channel as TextChannel);
         } catch (err) {}
     }
 
     Logger.run(`Loaded:`, {
-        category: "Logs Channels", color: "blue", stringBefore: "\n", ignore: !config.enable.logsChannelsLogs
+        category: "Logs Channels", color: "blue", stringBefore: "\n", ignore: !getConfig().enable.logsChannelsLogs
     });
 
     keys.forEach(key => {
 
-        const channel = channels.has(key as keyof typeof config.logsChannels) ?
-        `#${channels.get(key as keyof typeof config.logsChannels)?.name} (ID: ${channels.get(key as keyof typeof config.logsChannels)?.id})`
+        const channel = channels.has(key as keyof typeof logsChannels) ?
+        `#${channels.get(key as keyof typeof logsChannels)?.name} (ID: ${channels.get(key as keyof typeof logsChannels)?.id})`
         : "Couldn't load.";
 
         Logger.run(`${key}: ${channel}`, {
-            category: "Logs Channels", color: "blue", ignore: !config.enable.logsChannelsLogs
+            category: "Logs Channels", color: "blue", ignore: !getConfig().enable.logsChannelsLogs
         });
 
     });
 
 }
 
-export async function send(name: keyof typeof config.logsChannels, payload: MessageCreateOptions) {
+export async function send(name: keyof typeof logsChannels, payload: MessageCreateOptions) {
 
     if (!channels.has(name)) return Logger.run(`No log channel for: ${name}\n`, {
-        category: "Logs Channels", color: "yellow", stringBefore: "\n", ignore: !config.enable.logsChannelsLogs
+        category: "Logs Channels", color: "yellow", stringBefore: "\n", ignore: !getConfig().enable.logsChannelsLogs
     });
 
     return await channels.get(name)?.send(payload); 
@@ -57,20 +59,20 @@ async function getOwnerString(guild: Guild) {
     }
 }
 
-export async function enteredGuild(client: Bot, guild: Guild) {
+export async function enteredGuild(guild: Guild) {
 
     const owner = await getOwnerString(guild);
 
     const embed = defaultEmbed()
     .setTitle("I have entered in a new guild!")
-    .setColor(config.colors.green)
+    .setColor(getConfig().colors.green)
     .setDescription(
         [
             `**Name:** ${escapeMarkdown(guild.name)}`,
             `**ID:** ${guild.id}`,
             `**Member** count: ${guild.memberCount}`,
             `**Owner:** ${owner}`,
-            `**Current server count:** ${client.guilds.cache.size}`
+            `**Current server count:** ${bot.guilds.cache.size}`
         ].join("\n")
     )
 
@@ -78,20 +80,20 @@ export async function enteredGuild(client: Bot, guild: Guild) {
 
 }
 
-export async function leftGuild(client: Bot, guild: Guild) {
+export async function leftGuild(guild: Guild) {
 
     const owner = await getOwnerString(guild);
 
     const embed = defaultEmbed()
     .setTitle("I have left from a guild!")
-    .setColor(config.colors.red)
+    .setColor(getConfig().colors.red)
     .setDescription(
         [
             `**Name:** ${escapeMarkdown(guild.name)}`,
             `**ID:** ${guild.id}`,
             `**Member count:** ${guild.memberCount}`,
             `**Owner:** ${owner}`,
-            `**Current server count:** ${client.guilds.cache.size}`
+            `**Current server count:** ${bot.guilds.cache.size}`
         ].join("\n")
     )
 

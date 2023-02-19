@@ -69,6 +69,28 @@
                     }
                 }
 
+            },
+
+            "message": {
+
+                "name": "mensaje",
+                "description": "Comandos que te permiten enviar mensajes",
+
+                "say": {
+                    "name": "enviar",
+                    "description": "Enviar un mensaje a un canal específico",
+                    "options": {
+                        "message": {
+                            "name": "mensaje",
+                            "description": "Mensaje a enviar"
+                        },
+                        "channel": {
+                            "name": "canal",
+                            "description": "Canal en donde enviar el mensaje"
+                        }
+                    }
+                }
+    
             }
 
         },
@@ -134,6 +156,20 @@
                 "playersField": "**Jugadores:** <online>/<max>",
                 "versions": "**Versiones:** <versions>",
                 "bannerError": "Ocurrió un error al procesar el banner de este servidor. Puedes intentar ejecutar el comando nuevamente."
+            }
+
+        },
+
+        "message": {
+
+            "channelMissingPermissions": {
+                "bot": "El bot no tiene los siguientes permisos en el canal especificado:\n> **<permissions>**",
+                "user": "No tienes los siguientes permisos en el canal especificado:\n> **<permissions>**"
+            },
+
+            "send": {
+                "hasMentions": "No puedes usar este comando para mencionar roles, @everyone o @here.",
+                "success": "El mensaje ha sido enviado satisfactoriamente en el canal: <channel>"
             }
 
         }

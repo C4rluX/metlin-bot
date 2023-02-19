@@ -1,26 +1,27 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import databaseInitialize from "./database/initialize";
+import * as database from "./database";
 import exceptionCatchers from "./utils/exception-catchers";
 
 import Bot from "./structures/Bot";
 const bot = new Bot({ logging: true });
 
-import config from "../config";
 import * as translations from "./utils/translations";
 import Logger from "./structures/Logger";
+import * as configuration from "./utils/configuration";
 
 (async () => {
 
     exceptionCatchers();
+    await configuration.load();
 
-    Logger.run(config.devMode.activated ? `Starting in Developer Mode...` : `Starting...`, {
+    Logger.run(configuration.getConfig().devMode.activated ? `Starting in Developer Mode...` : `Starting...`, {
         color: "green", category: "Bot"
     });
 
-    await databaseInitialize({ logging: config.enable.databaseLogs });
-    await translations.load({ logging: config.enable.translationsLogs });
+    await database.initialize({ logging: configuration.getConfig().enable.databaseLogs });
+    await translations.load({ logging: configuration.getConfig().enable.translationsLogs });
     await bot.load({ logging: true });
     await bot.start();
 

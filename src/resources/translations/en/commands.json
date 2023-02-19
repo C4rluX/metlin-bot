@@ -59,7 +59,7 @@
                 },
 
                 "profile": {
-                    "name": "perfil",
+                    "name": "profile",
                     "description": "Let's you see information about a Minecraft player",
                     "options": {
                         "nick": {
@@ -69,6 +69,28 @@
                     }
                 }
 
+            },
+
+            "message": {
+
+                "name": "message",
+                "description": "Commands that let you send messages",
+
+                "say": {
+                    "name": "send",
+                    "description": "Send a message to a specific channel",
+                    "options": {
+                        "message": {
+                            "name": "message",
+                            "description": "Message to send"
+                        },
+                        "channel": {
+                            "name": "channel",
+                            "description": "Channel where to send the message"
+                        }
+                    }
+                }
+    
             }
 
         },
@@ -134,6 +156,20 @@
                 "playersField": "**Players:** <online>/<max>",
                 "versions": "**Versions:** <versions>",
                 "bannerError": "An error occurred when processing the banner of this server. You can try using the commmand again."
+            }
+
+        },
+
+        "message": {
+
+            "channelMissingPermissions": {
+                "bot": "The bot doesn't have these permissions in the specified channel:\n> **<permissions>**",
+                "user": "You don't have these permissions in the specified channel:\n> **<permissions>**"
+            },
+
+            "send": {
+                "hasMentions": "You can't use this command to mention roles, @everyone or @here.",
+                "success": "The message was sent successfully in the channel: <channel>"
             }
 
         }

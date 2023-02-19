@@ -1,13 +1,13 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import Bot from "../structures/Bot";
-import config from "../../config";
 import Logger from "../structures/Logger";
+import { getConfig } from "../utils/configuration";
 import * as translations from "../utils/translations";
 
 export default async (client: Bot, interaction: ChatInputCommandInteraction) => {
 
-    if (config.devMode.activated && !config.devMode.channels.includes(interaction.channelId)) return;
-    if (!config.devMode.activated && config.devMode.channels.includes(interaction.channelId)) return;
+    if (getConfig().devMode.activated && !getConfig().devMode.channels.includes(interaction.channelId)) return;
+    if (!getConfig().devMode.activated && getConfig().devMode.channels.includes(interaction.channelId)) return;
 
     if (interaction.user.bot) return;
 
@@ -33,7 +33,7 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction) => 
         
         if (interaction.channel && !interaction.channel.isDMBased()) {
             Logger.run(`${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name} ${subcommand.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-                color: "cyan", ignore: !config.enable.slashCommandsLogs, category: "Slash Commands"
+                color: "cyan", ignore: !getConfig().enable.slashCommandsLogs, category: "Slash Commands"
             });
         }
     
@@ -43,10 +43,10 @@ export default async (client: Bot, interaction: ChatInputCommandInteraction) => 
 
     if (interaction.channel && !interaction.channel.isDMBased()) {
         Logger.run(`${interaction.user.tag} (ID: ${interaction.user.id}) executed "/${command.data.name}" in #${interaction.channel?.name} (ID: ${interaction.channel?.id}) from the guild "${interaction.guild?.name}" (ID: ${interaction.guild?.id})`, {
-            color: "cyan", ignore: !config.enable.slashCommandsLogs, category: "Slash Commands"
+            color: "cyan", ignore: !getConfig().enable.slashCommandsLogs, category: "Slash Commands"
         });
     }
 
-   command.run(client, interaction);
+    command.run(client, interaction);
 
 }

@@ -22,14 +22,6 @@ export function lowerCaseByIndexes(string: string, indexes: [number]) {
     }).join("");
 }
 
-export function joinArrayWithLastChar(array: Array<string>, char: string, lastChar: string) {
-    if (array.length < 2) { return array.join(""); }
-    else {
-        const last = array.pop();
-        return array.join(char) + lastChar + last;
-    }
-}
-
 export function cut(string: string, maxLength: number, end: string = "...") {
     return (string.length > maxLength) ? string.substring(0, maxLength) + end : string;
 }

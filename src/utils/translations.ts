@@ -1,10 +1,11 @@
-import { Collection } from "discord.js";
+import { Collection, PermissionFlagsBits, PermissionsBitField, PermissionsString } from "discord.js";
 import { readdir, readFile } from "fs/promises";
 import path from "node:path";
-import config from "../../config";
 import Logger from "../structures/Logger";
 import * as strings from "./string-related";
 import * as json from "./json-related";
+import { getConfig } from "./configuration";
+import permissionsCategories from "../resources/constants/permissions-categories.json";
 
 interface LoadTranslationsOptions {
     logging: boolean
@@ -41,7 +42,7 @@ function validate(language: string) {
         return data.general.locales.includes(language);
     });
     if (langByLocale) return langByLocale;
-    return translations.has(language) ? language : config.defaults.lang;
+    return translations.has(language) ? language : getConfig().defaults.lang;
 }
 
 interface GetStringOptions {
@@ -57,7 +58,7 @@ export function get(name: string, options?: GetStringOptions): any {
 
     if (!data) {
         Logger.run(`Not found: ${name} (from language "${lang}")\n`, {
-            color: "yellow", ignore: !config.enable.translationsLogs, category: "Translations", stringBefore: "\n"
+            color: "yellow", ignore: !getConfig().enable.translationsLogs, category: "Translations", stringBefore: "\n"
         });
     }
 
@@ -82,7 +83,7 @@ interface GetSlashCommandMetaOptions {
 export function getSlashCommandMeta(name: string, options: GetSlashCommandMetaOptions): any {
 
     if (options.lang === "default") {
-        const data = translations.get(config.defaults.lang);
+        const data = translations.get(getConfig().defaults.lang);
         const meta = json.accessByString(`commands.slashCommandsMeta.${name}`, data);
         return meta;
     }
@@ -149,4 +150,19 @@ export function languageBasedJoin(array: string[], options?: LanguageBasedJoinOp
         const last = array.pop();
         return `${array.join(", ")} ${get("general.misc.and", { lang: options?.lang })} ${last}`;
     }
+}
+
+interface GetPermissionsNamesOptions {
+    lang?: string,
+    withCategories?: boolean
+}
+
+export function getPermissionsNames(permissions: PermissionsString[], options?: GetPermissionsNamesOptions): string[] {
+    return permissions.map(permission => {
+        if (options?.withCategories) {
+            return `(${get(`general.permissionsCategories.${permissionsCategories[permission]}`, { lang: options?.lang })}) ` +
+            get(`general.permissionsFlags.${permission}`, { lang: options?.lang });
+        }
+        return get(`general.permissionsFlags.${permission}`, { lang: options?.lang });
+    });
 }

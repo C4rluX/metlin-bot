@@ -7,8 +7,8 @@ import Command from "./Command";
 import Event from "./Event";
 import Logger from "./Logger";
 import SlashCommand from "./SlashCommand";
-import SlashCommandSubCommand from "./SlashCommandSubcommand";
-import config from "../../config";
+import SlashCommandSubCommand from "./SlashCommandSubCommand";
+import { getConfig } from "../utils/configuration";
 
 interface BotOptions {
     logging: boolean
@@ -56,7 +56,7 @@ class Bot extends Client {
                 GatewayIntentBits.GuildMessages
             ],
             partials: [Partials.Message, Partials.Reaction],
-            allowedMentions: { repliedUser: false, parse: ['roles', 'users'] }
+            allowedMentions: { repliedUser: false, parse: ['users'] }
         });
         this.rest.setToken(process.env.BOT_TOKEN ?? "")
         this.botOptions = options;
@@ -90,7 +90,7 @@ class Bot extends Client {
         });
 
         this.owners = await Promise.all(
-            config.developers.map(id => this.users.fetch(id))
+            getConfig().developers.map(id => this.users.fetch(id))
         )
 
         Logger.run(`Loaded owners: ${this.owners.map(e => e.tag) || "None"}`, {
@@ -157,7 +157,6 @@ class Bot extends Client {
                         event.run.apply(null, [this, ...args]);
                     });
                 }
-                
             }
             
             if (where === "rest") {

@@ -6,6 +6,6 @@ export default new Event({
     name: "guildCreate",
     once: false,
     run: async (client, guild: Guild) => {
-        enteredGuild(client, guild);
+        enteredGuild(guild);
     }
 })

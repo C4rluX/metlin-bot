@@ -18,7 +18,11 @@ export async function load(options: PreloadsOptions) {
     for (const index in folders) {
 
         const folder = folders[index];
-        if (!folder.isDirectory()) continue;
+        if (
+            !folder.isDirectory() ||
+            ["translations", "constants"].includes(folder.name)
+        ) continue;
+        
         const files = await readdir(path.join(require.main?.path || "", "resources", folder.name));
 
         for (let index in files) {

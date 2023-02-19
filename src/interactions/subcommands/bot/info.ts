@@ -1,9 +1,8 @@
 import { escapeMarkdown, OAuth2Scopes, PermissionResolvable, SlashCommandSubcommandBuilder } from "discord.js";
-import config from "../../../../config";
 import { devDependencies, repository } from "../../../../package.json";
-import database from "../../../database";
-import databasePing from "../../../database/ping";
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
+import * as database from "../../../database";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
+import { getConfig } from "../../../utils/configuration";
 import { bytesToReadable } from "../../../utils/conversions";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
@@ -38,11 +37,11 @@ export default new SlashCommandSubCommand({
                         usingMiliseconds: true
                     }),
                     discordPing: client.ws.ping,
-                    databasePing: (await databasePing()).toFixed(2),
-                    databaseName: database.getDialect(),
+                    databasePing: (await database.ping()).toFixed(2),
+                    databaseName: database.connection.getDialect(),
                     inviteLink: client.generateInvite({
                         scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
-                        permissions: config.defaults.inviteLinkPermissions as PermissionResolvable
+                        permissions: getConfig().defaults.inviteLinkPermissions as PermissionResolvable
                     }),
                     repositoryLink: repository.url
                 }

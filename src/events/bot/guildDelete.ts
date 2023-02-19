@@ -6,6 +6,6 @@ export default new Event({
     name: "guildDelete",
     once: false,
     run: async (client, guild: Guild) => {
-        leftGuild(client, guild);
+        leftGuild(guild);
     }
 })

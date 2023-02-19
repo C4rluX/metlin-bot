@@ -1,7 +1,6 @@
 import { SlashCommandSubcommandBuilder } from "discord.js";
-import database from "../../../database";
-import databasePing from "../../../database/ping";
-import SlashCommandSubCommand from "../../../structures/SlashCommandSubcommand";
+import * as database from "../../../database";
+import SlashCommandSubCommand from "../../../structures/SlashCommandSubCommand";
 import { defaultEmbed } from "../../../utils/embeds";
 import * as translations from "../../../utils/translations";
 
@@ -24,7 +23,7 @@ export default new SlashCommandSubCommand({
             }),
             translations.get("commands.bot.ping.database", {
                 lang: interaction.locale,
-                variables: { value: (await databasePing()).toFixed(2), databaseName: database.getDialect() }
+                variables: { value: (await database.ping()).toFixed(2), databaseName: database.connection.getDialect() }
             }),
             translations.get("commands.bot.ping.messagesCalculating", {
                 lang: interaction.locale
